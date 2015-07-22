@@ -1,0 +1,112 @@
+<%= content_for(:title, @relax_moment.relax_title) %>
+<%= render partial: 'share/active_robot' %>
+<div class="container marketing" style="padding-top: 100px">
+  <div class="box span8">
+    <div class="box-content">
+      <div style="float: left">
+        <span class="label label-success" style="font-size: 15px;"><%= @relax_moment.relax_time %></span><br>
+        <h2 class="center" style="color:#2FABE9;"><%= @relax_moment.relax_title %></h2>
+      </div>
+      <div style="float: right">
+        <% if @relax_moment.relax_audio.present? %>
+            <object type="application/x-shockwave-flash" data="/player/dewplayer-vinyl.swf" width="303" height="113" id="dewplayervinyl" name="dewplayervinyl">
+              <param name="movie" value="/player/dewplayer-vinyl.swf" />
+              <param name="flashvars" value="xml=/player/dewplay.xml&mp3=<%= @relax_moment.relax_audio %>&volume=85&javascript=off"/>
+            </object>
+        <% end %>
+      </div>
+      <legend></legend>
+      <%= raw(@relax_moment.relax_content) %>
+      <div style="padding-top: 15px">
+        <% if RelaxMoment.find_by_id(@relax_moment.id-1).present? %>
+            <span style="float: left"><a href="/qingsongyike/<%= @relax_moment.id-1 %>" class="btn">上刻：<%= RelaxMoment.find_by_id(@relax_moment.id-1).relax_time %></a></span>
+        <% end %>
+        <% if RelaxMoment.find_by_id(@relax_moment.id+1).present? %>
+            <span style="float: right"><a href="/qingsongyike/<%= @relax_moment.id+1 %>" class="btn">下刻：<%= RelaxMoment.find_by_id(@relax_moment.id+1).relax_time %></a></span>
+        <% end %>
+        <hr style="color: #0099cc">
+      </div>
+    </div>
+    <div style="background-color: #e8e8e8;max-height: 200px">
+      <div style="padding-top: 20px;padding-left: 80px;padding-bottom: 10px">
+        <textarea id="discuss" placeholder="请在这里键入您的评论" style="height: 70px;width: 452px;max-width: 452px;max-height: 150px"></textarea>
+        <span  style="padding-left: 50px;margin-top: 50px"><button  class="btn btn-large btn-primary" id="submit">发表评论</button></span>
+      </div>
+    </div>
+    <a id="comment"></a>
+    <div id="chat" style="overflow:scroll;overflow-x:hidden;overflow-y:auto;max-height: 800px;padding-right: 20px;padding-left: 20px">
+      <ul id="chat-content" class="content-reply-box mg10">
+        <% @relax_comment.each do |item| %>
+            <% if @current_user.present? && item.user_id == @current_user.id%>
+                <li class="chat-right">
+            <% else %>
+                <li class="chat-left">
+            <% end %>
+            <a class="user ui-link" title="<%= User.find_by_id(item.user_id).account %>" href="/user?account=<%= User.find_by_id(item.user_id).account %>">
+              <img class="img-responsive avatar_" src="<%= User.find_by_id(item.user_id).avatar || Admin::AVATAR[rand(13)] %>" width="44" height="44" alt="">
+            </a>
+            <div class="reply-content-box">
+              <span class="reply-time"><%= item.created_at.strftime('%m-%d %H:%M')%></span>
+              <div class="reply-content pr">
+                <span class="arrow">&nbsp;</span>
+                <%= item.comment %>
+              </div>
+            </div>
+            </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sortable span3">
+    <!--推广位置-->
+    <%#= render :partial=>'share/push_ad' %>
+    <%= render :partial=>'share/hot_news' %>
+  </div>
+</div>
+<% if @current_user.present? %>
+    <% current_id = @current_user.id %>
+<% else %>
+    <% current_id = 0 %>
+<% end %>
+<script>
+    $('#submit').click(function(){
+
+        params = {};
+        params['relax_comment'] = {};
+        params['relax_comment']['relax_id'] = <%= @relax_moment.id %>;
+        params['relax_comment']['user_id'] = <%= current_id  %>;
+        params['relax_comment']['comment'] = $('#discuss').val();
+        if(params['relax_comment']['user_id']==0) {
+            alert('您没有登录,无法评论');
+            $('#discuss').val('');
+            return false;
+        }
+        if(params['relax_comment']['comment'].trim()==''){
+            alert('请至少说点什么吧！');
+            return false;
+        }else{
+            $.post('/relax_comments', params,function(data){
+                if(data.status == 200){
+                    var new_comment = '';
+                    new_comment +='<li class="chat-right">';
+                    new_comment +='<a class="user ui-link">';
+                    new_comment +='<img width="44" height="44" alt="" class="img-responsive avatar_" src='+ '<% if @current_user.present? %><%= @current_user.avatar || Admin::AVATAR[rand(13)] %><% end %>' + '>';
+                    new_comment +='<span class="user-name">'+'<% if @current_user.present? %><%= @current_user.account %><% end%>'+'</span></a>';
+                    new_comment +='<div class="reply-content-box">';
+                    new_comment +='<span class="reply-time">' + '<%= Time.now.strftime('%m-%d %H:%M') %>' + '</span>';
+                    new_comment +='<div class="reply-content pr">';
+                    new_comment +='<span class="arrow">&nbsp;</span>';
+                    new_comment += $('#discuss').val();
+                    new_comment +='</div></div></li>';
+                    $("#chat-content").append(new_comment);
+                    $('#discuss').val('');
+                    window.location.href = '/qingsongyike/' + <%= @relax_moment.id %> +'#comment';
+                }else{
+                    alert('一般刷帖的人被称为水军');
+                    return false;
+                }
+            });
+        }
+    });
+</script>

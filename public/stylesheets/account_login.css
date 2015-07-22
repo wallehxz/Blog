@@ -1,0 +1,21 @@
+.popup { background-color: #fff; border: 3px solid #d30000; width: 370px; z-index: 100;}
+.pop-tit { background:url(/images/app_zzgc/pop-tit.png) no-repeat; height: 73px;width: 100%;}
+.pop-cont { padding: 20px 30px; display:inline-block;}
+.pop-tit h2 { color: #fff; float: left; font-size: 30px; font-weight: normal; line-height: 73px;
+    padding-left: 30px;}
+.ff-ms { font-family:"Microsoft YaHei",arial,sans-serif;}
+.pop-tit .close { background:url(/images/app_zzgc/pop-close.png) no-repeat;
+    cursor: pointer; display: block; float: right; height: 40px; margin-right: 10px; margin-top: 10px;
+    width: 40px;}
+.clearfix:after { clear: both; content: ""; display: block; height: 0; visibility: hidden;}
+.dl_h3 { font-family:"Microsoft YaHei",arial,sans-serif; font-size: 18px; font-weight: normal; margin-bottom: 10px; text-align: left;}
+.dl_btn { background:url(/images/app_zzgc/wap_bg01.png) no-repeat; display: block; float: left; height: 54px; width: 226px;}
+.dl_btn:hover{ background-position:0 -74px;}
+.dl_btn2 { background-position:-226px 0; margin-left: 20px;}
+.dl_btn2:hover{ background-position:-226px -74px;}
+.download2 {border-top: 1px dashed #e0e0e0; margin-top: 20px; overflow: hidden; padding-top: 20px;}
+.dl_h3 { font-family:"Microsoft YaHei",arial,sans-serif; font-size: 18px; font-weight: normal; margin-bottom: 10px; text-align: left;}
+.dl_ewm { background:url(/images/app_zzgc/wap_ewm.png) no-repeat; display: block; float: left; height: 112px; width: 112px;}
+.ewm_msg { color: #666; float: left; font-size: 14px; margin-left: 20px; text-align: left; width: 252px;}
+
+.footer {background-color:#ebebeb; padding:40px 0; text-align:center; color:#444; font-size:14px;}

@@ -1,0 +1,65 @@
+<div class="box-content">
+  <legend>发布新主播</legend>
+  <div style="padding-left: 20px;padding-bottom: 15px;">
+    <div  style="background-color: #2071a1;padding-left: 60px;padding-top: 10px;padding-bottom: 5px;width: 700px">
+    <table>
+      <tr>
+        <select id="type" style="font-size: 18px;height: 35px;background: url(http://img.spriteapp.com/ws/www/img/web_bg.jpg) repeat;">
+          <option>请选择直播游戏</option>
+          <option value="英雄联盟">英雄联盟 LoL</option>
+          <option value="天天刀塔">天天刀塔 DotA</option>
+          <option value="穿越火线">穿越火线 CF</option>
+          <option value="魔兽世界">魔兽世界 WoW</option>
+          <option value="流星蝴蝶剑">流星蝴蝶剑 MeteoR</option>
+        </select>
+      </tr>
+      <tr><input class="span4" id="person" size="30" type="text" placeholder="主播昵称或名字"/></tr>
+      <tr><input class="span5" id="title" size="30" type="text" placeholder="直播标题"/></tr>
+      <tr><input class="span5" id="url" size="30" type="text" placeholder="斗鱼直播房间ID"/></tr>
+      <tr>
+        <select multiple data-rel="chosen" id="interval" class="span7">
+          <option value="Monday">1 Monday</option>
+          <option value="Tuesday">2 Tuesday</option>
+          <option value="Wednesday">3 Wednesday</option>
+          <option value="Thursday">4 Thursday</option>
+          <option value="Friday">5 Friday</option>
+          <option value="Saturday">6 Saturday</option>
+          <option value="Sunday">7 Sunday</option>
+          <option value="All">一夜七次郎</option>
+        </select>
+      </tr>
+    </table>
+  </div>
+  </div>
+  <div style="padding-left: 20px">
+    <div style="background-color: #ad6704;width: 755px;padding-left: 5px;padding-top: 20px;padding-bottom: 20px">
+      <div style="padding-left: 50px">
+        <%= render :partial => 'share/rich_text'%>
+      </div>
+      <div id="editor" style="overflow:scroll;overflow-x:hidden;overflow-y:auto; height:500px;width: 750px;background-color: white"></div>
+    </div>
+  </div>
+  <div class="form-actions">
+    <button  class="btn btn-primary" id="submit">保存新主播</button>
+    <button  class="btn" onclick="window.location='/topics'">取消</button>
+  </div>
+</div>
+<script>
+    $('#submit').click(function(){
+        params = {};
+        params['game_live'] = {};
+        params['game_live']['live_type'] = $('#type').val();
+        params['game_live']['live_title'] = $('#title').val();
+        params['game_live']['live_url'] = $('#url').val();
+        params['game_live']['live_interval'] = $('#interval').val();
+        params['game_live']['person_name'] = $('#person').val();
+        params['game_live']['person_resume'] = $('#editor').html();
+        if($('#title').val()=='' || $('#person').val()=='' || $('#type').val()=='' || $('#url').val()==''){
+            alert('主播的信息不够完善！');
+            return false;
+        }else{
+            $.post('/game_lives', params);
+            location.replace(location.href= '/game_lives');
+        }
+    });
+</script>

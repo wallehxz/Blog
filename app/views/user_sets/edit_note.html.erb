@@ -1,0 +1,104 @@
+<%= content_for(:title, '更新随身笔记') %>
+<div class="box-content">
+  <legend>添加笔记</legend>
+  <div style="padding-left: 35px;padding-bottom: 15px;;width: 755px">
+    <div  style="background-color: #f8b9b7;padding-left: 60px;padding-top: 10px;padding-bottom: 5px">
+      <table>
+        <tr>
+          <select id="note_weather">
+            <option value="">请选择天气</option>
+            <option value="Sunny" <% if @note.note_weather=='Sunny' %>selected<%end%>>⊙▂⊙、晴</option>
+            <option value="Wind" <% if @note.note_weather=='Wind' %>selected<%end%>>⊙０⊙、风</option>
+            <option value="Cloud" <% if @note.note_weather=='Cloud' %>selected<%end%>>⊙△⊙、云</option>
+            <option value="Fog" <% if @note.note_weather=='Fog' %>selected<%end%>>⊙ω⊙、雾</option>
+            <option value="Rain" <% if @note.note_weather=='Rain' %>selected<%end%>>⊙﹏⊙、雨</option>
+            <option value="Lightning" <% if @note.note_weather=='Lightning' %>selected<%end%>>⊙▽⊙、闪</option>
+            <option value="Snow" <% if @note.note_weather=='Snow' %>selected<%end%>>⊙▂⊙、雪</option>
+            <option value="Frost" <% if @note.note_weather=='Frost' %>selected<%end%>>⊙﹏⊙、霜</option>
+            <option value="Thunder" <% if @note.note_weather=='Thunder' %>selected<%end%>>⊙ω⊙、雷</option>
+            <option value="Hail" <% if @note.note_weather=='Hail' %>selected<%end%>>⊙︿⊙、雹</option>
+            <option value="Haze" <% if @note.note_weather=='Haze' %>selected<%end%>>⊙︿⊙、霾</option>
+          </select>
+        </tr>
+        <tr><input class="datepicker span2" id="note_date" size="30" type="text" placeholder="选择笔记日期" value="<%= @note.note_date %>"/></tr>
+        <tr>
+          <select data-placeholder="开心一点,快乐一天" id="note_tag" data-rel="chosen">
+            <option value=""></option>
+            <optgroup label="欢喜">
+              <option value="欢欣鼓舞" <% if @note.note_tag=='欢欣鼓舞' %>selected<%end%>>欢欣鼓舞</option>
+              <option value="兴高采烈" <% if @note.note_tag=='兴高采烈' %>selected<%end%>>兴高采烈</option>
+              <option value="兴致勃勃" <% if @note.note_tag=='兴致勃勃' %>selected<%end%>>兴致勃勃</option>
+              <option value="心花怒放" <% if @note.note_tag=='心花怒放' %>selected<%end%>>心花怒放</option>
+            </optgroup>
+            <optgroup label="激动">
+              <option value="感人肺腑" <% if @note.note_tag=='感人肺腑' %>selected<%end%>>感人肺腑&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+              <option value="动人心弦" <% if @note.note_tag=='动人心弦' %>selected<%end%>>动人心弦</option>
+              <option value="情不自禁" <% if @note.note_tag=='情不自禁' %>selected<%end%>>情不自禁</option>
+              <option value="心潮澎湃" <% if @note.note_tag=='心潮澎湃' %>selected<%end%>>心潮澎湃</option>
+            </optgroup>
+            <optgroup label="感激">
+              <option value="感激涕零" <% if @note.note_tag=='感激涕零' %>selected<%end%>>感激涕零</option>
+              <option value="感恩戴德" <% if @note.note_tag=='感恩戴德' %>selected<%end%>>感恩戴德</option>
+              <option value="没齿不忘" <% if @note.note_tag=='没齿不忘' %>selected<%end%>>没齿不忘</option>
+              <option value="感同身受" <% if @note.note_tag=='感同身受' %>selected<%end%>>感同身受</option>
+            </optgroup>
+            <optgroup label="忧愁">
+              <option value="愁眉不展" <% if @note.note_tag=='愁眉不展' %>selected<%end%>>愁眉不展</option>
+              <option value="忧心忡忡" <% if @note.note_tag=='忧心忡忡' %>selected<%end%>>忧心忡忡</option>
+              <option value="心急如火" <% if @note.note_tag=='心急如火' %>selected<%end%>>心急如火</option>
+              <option value="郁郁寡欢" <% if @note.note_tag=='郁郁寡欢' %>selected<%end%>>郁郁寡欢</option>
+            </optgroup>
+            <optgroup label="懊丧">
+              <option value="垂头丧气" <% if @note.note_tag=='垂头丧气' %>selected<%end%>>垂头丧气</option>
+              <option value="灰心丧气" <% if @note.note_tag=='灰心丧气' %>selected<%end%>>灰心丧气</option>
+              <option value="心灰意冷" <% if @note.note_tag=='心灰意冷' %>selected<%end%>>心灰意冷</option>
+              <option value="万念俱灰" <% if @note.note_tag=='万念俱灰' %>selected<%end%>>万念俱灰</option>
+            </optgroup>
+            <optgroup label="悲痛">
+              <option value="心如刀割" <% if @note.note_tag=='心如刀割' %>selected<%end%>>心如刀割</option>
+              <option value="切肤之痛" <% if @note.note_tag=='切肤之痛' %>selected<%end%>>切肤之痛</option>
+              <option value="哀毁骨立" <% if @note.note_tag=='哀毁骨立' %>selected<%end%>>哀毁骨立</option>
+              <option value="悲天悯人" <% if @note.note_tag=='悲天悯人' %>selected<%end%>>悲天悯人</option>
+            </optgroup>
+            <optgroup label="愤怒">
+              <option value="怒不可遏" <% if @note.note_tag=='怒不可遏' %>selected<%end%>>怒不可遏</option>
+              <option value="怒形于色" <% if @note.note_tag=='怒形于色' %>selected<%end%>>怒形于色</option>
+              <option value="怒火中烧" <% if @note.note_tag=='怒火中烧' %>selected<%end%>>怒火中烧</option>
+              <option value="忍无可忍" <% if @note.note_tag=='忍无可忍' %>selected<%end%>>忍无可忍</option>
+            </optgroup>
+
+          </select>
+        </tr>
+        <tr><input class="span5" id="note_title" value="<%= @note.note_title %>" size="30" type="text" placeholder="请在这里填写笔记标题"  /></tr>
+      </table>
+    </div>
+  </div>
+  <div style="padding-left: 35px">
+    <div style="background-color: #e8e8e8;width: 700px;padding-left: 55px;padding-top: 20px;padding-bottom: 20px">
+        <textarea class="cleditor" id="content"><%= raw(@note.note_content) %></textarea>
+    </div>
+  </div>
+  <div class="form-actions">
+    <button  class="btn btn-primary" id="submit">更新笔记</button>
+    <button  class="btn" onclick="window.location='/info_center'">取消</button>
+  </div>
+</div>
+<script>
+    $('#submit').click(function(){
+        params = {};
+        params['note'] = {};
+        params['note']['id'] = <%= @note.id %>;
+        params['note']['note_title'] = $('#note_title').val();
+        params['note']['note_date'] = $('#note_date').val();
+        params['note']['note_weather'] = $('#note_weather').val();
+        params['note']['note_tag'] = $('#note_tag').val();
+        params['note']['note_content'] = $('#content').val();
+        if($('#note_title').val()=='' || $('#content').val()=='' || $('#note_date').val()==''|| $('#note_weather').val()==''){
+            alert('请勿提交空内容的笔记！');
+            return false;
+        }else{
+            $.post('/update_note', params);
+            location.replace(location.href= '/info_center');
+        }
+    });
+</script>

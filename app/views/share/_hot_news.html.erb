@@ -1,0 +1,29 @@
+<div class="box" style="width: 300px">
+  <div class="box-header well" data-original-title>
+    <h2 style="font-size: 20px"><i class="icon-fire"></i>小站热榜</h2>
+    <div class="box-icon">
+      <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+      <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
+    </div>
+  </div>
+  <div class="box-content">
+    <ul>
+      <li style="padding-left: 110px"><span class="label label-danger">热门新帖</span></li>
+      <% Topic.order('created_at desc').limit(4).each do |item| %>
+          <li><a href="/rubyonrails/<%= item.id %>"><%= item.topic_title[0,0] %></a></li>
+      <% end %>
+      <li style="text-align: center"><span class="label label-warning">搞笑趣闻</span></li>
+      <% RelaxMoment.order('relax_time desc').limit(3).each do |item| %>
+          <li><a href="/qingsongyike/<%= item.id %>"><%= item.relax_title[0,15] %></a></li>
+      <% end %>
+      <li style="text-align: center"><span class="label label-success">火热直播</span></li>
+      <% GameLive.order('attention desc').limit(3).each do |item| %>
+          <li><a href="/youxizhibo/<%= item.id %>"><%= item.live_title[0,15] %></a></li>
+      <% end %>
+      <li style="text-align: center"><span class="label label-important">捧腹糗事</span></li>
+      <% Embarrass.order('chan_count desc').limit(4).each do |item| %>
+          <li><a href="/qiushibaike/<%= item.id %>"><%= item.process[0,15] %></a></li>
+      <% end %>
+    </ul>
+  </div>
+</div>

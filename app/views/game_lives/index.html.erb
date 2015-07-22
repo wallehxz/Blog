@@ -1,0 +1,41 @@
+
+  <div class="box-header well"><!-- 动态标题栏 -->
+    <a title="新直播" href="/game_lives/new" class="btn btn-round"><i class="icon-plus"></i></a>
+  </div>
+<div class="row-fluid sortable"><div></div><!-- 动态表单 -->
+  <% @game_lives.each do |item| %>
+      <div class="box">
+        <div class="box-header well" data-original-title>
+          <h2><%= item.live_title %></h2>
+          <div class="box-icon">
+            <a href="/game_lives/<%= item.id %>/edit" class="btn"><i class="icon-edit"></i></a>
+            <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+            <a href="/game_lives/delete/<%= item.id %>" class="btn btn-round" onClick="if(confirm('确定要删除该主播吗？'))return true;return false;"><i class="icon-remove"></i></a>
+          </div>
+        </div>
+        <div class="box-content">
+            <div style="padding-bottom: 10px">
+            <% if item.person_cover.present? %>
+                <a href="/game_lives/<%= item.id %>"><img src="<%= item.person_cover %>"></a>
+            <% else %>
+                <a href="/game_lives/new_cover?live_id=<%= item.id %>">上传封面</a>
+            <% end %>
+            </div>
+          <% if item.live_interval.present? %>
+              <span class="label " style="font-size: 15px;color: #000000">直播时间</span>
+              <% item.live_interval.gsub('-','').split(' ').each do |tag| %>
+                  <span class="label label-success" style="font-size: 12px"><%= tag %></span>
+              <% end %>
+          <% end %>
+          <legend></legend>
+          <i class="icon32 icon-blue icon-user"></i><span class="label label-important" style="font-size: 18px"><%= item.person_name %></span>
+          <i class="icon32 icon-green icon-bookmark"></i><span class="label label-inverse" style="font-size: 18px"><%= item.live_type %></span>
+          <i class="icon32 icon-red icon-heart"></i><span class="label label-warning">关注&nbsp;<%= item.attention %></span>
+        </div>
+      </div>
+  <% end %>
+</div>
+  <div>
+    <%= will_paginate @game_lives , :class => 'apple_pagination', :previous_label => '上一页', :next_label => '下一页' %>
+  </div>
+

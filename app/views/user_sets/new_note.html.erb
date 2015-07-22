@@ -1,0 +1,103 @@
+<%= content_for(:title, '随身笔记') %>
+<div class="box-content">
+  <legend>添加笔记</legend>
+  <div style="padding-left: 35px;padding-bottom: 15px;;width: 755px">
+    <div  style="background-color: #ff7d2b;padding-left: 60px;padding-top: 10px;padding-bottom: 5px">
+    <table>
+      <tr>
+        <select id="note_weather">
+          <option value="">请选择天气</option>
+          <option value="Sunny">⊙▂⊙、晴</option>
+          <option value="Wind">⊙０⊙、风</option>
+          <option value="Cloud">⊙△⊙、云</option>
+          <option value="Fog">⊙ω⊙、雾</option>
+          <option value="Rain">⊙﹏⊙、雨</option>
+          <option value="Lightning">⊙▽⊙、闪</option>
+          <option value="Snow">⊙▂⊙、雪</option>
+          <option value="Frost">⊙﹏⊙、霜</option>
+          <option value="Thunder">⊙ω⊙、雷</option>
+          <option value="Hail">⊙︿⊙、雹</option>
+          <option value="Haze">⊙︿⊙、霾</option>
+        </select>
+      </tr>
+      <tr><input class="datepicker span2" id="note_date" size="30" type="text" placeholder="选择笔记日期" value="<%= Time.now.strftime('%Y-%m-%d') %>"/></tr>
+      <tr>
+        <select data-placeholder="开心一点,快乐一天" id="note_tag" data-rel="chosen">
+          <option value=""></option>
+          <optgroup label="欢喜">
+            <option value="欢欣鼓舞">欢欣鼓舞</option>
+            <option value="兴高采烈">兴高采烈</option>
+            <option value="兴致勃勃">兴致勃勃</option>
+            <option value="心花怒放">心花怒放</option>
+          </optgroup>
+          <optgroup label="激动">
+            <option value="感人肺腑">感人肺腑&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+            <option value="动人心弦">动人心弦</option>
+            <option value="情不自禁">情不自禁</option>
+            <option value="心潮澎湃">心潮澎湃</option>
+          </optgroup>
+          <optgroup label="感激">
+            <option value="感激涕零">感激涕零</option>
+            <option value="感恩戴德">感恩戴德</option>
+            <option value="没齿不忘">没齿不忘</option>
+            <option value="感同身受">感同身受</option>
+          </optgroup>
+          <optgroup label="忧愁">
+            <option value="愁眉不展">愁眉不展</option>
+            <option value="忧心忡忡">忧心忡忡</option>
+            <option value="心急如火">心急如火</option>
+            <option value="郁郁寡欢">郁郁寡欢</option>
+          </optgroup>
+          <optgroup label="懊丧">
+            <option value="垂头丧气">垂头丧气</option>
+            <option value="灰心丧气">灰心丧气</option>
+            <option value="心灰意冷">心灰意冷</option>
+            <option value="万念俱灰">万念俱灰</option>
+          </optgroup>
+          <optgroup label="悲痛">
+            <option value="心如刀割">心如刀割</option>
+            <option value="切肤之痛">切肤之痛</option>
+            <option value="哀毁骨立">哀毁骨立</option>
+            <option value="悲天悯人">悲天悯人</option>
+          </optgroup>
+          <optgroup label="愤怒">
+            <option value="怒不可遏">怒不可遏</option>
+            <option value="怒形于色">怒形于色</option>
+            <option value="怒火中烧">怒火中烧</option>
+            <option value="忍无可忍">忍无可忍</option>
+          </optgroup>
+
+        </select>
+      </tr>
+      <tr><input class="span5" id="note_title" size="30" type="text" placeholder="请在这里填写笔记标题"  /></tr>
+    </table>
+  </div>
+  </div>
+  <div style="padding-left: 35px">
+    <div style="background-color: #31b0d5;width: 700px;padding-left: 55px;padding-top: 20px;padding-bottom: 20px">
+      <textarea class="cleditor" id="content">一分笔记，一份记忆</textarea>
+    </div>
+  </div>
+  <div class="form-actions">
+    <button  class="btn btn-primary" id="submit">保存笔记</button>
+    <button  class="btn" onclick="window.location='/info_center'">取消</button>
+  </div>
+</div>
+<script>
+    $('#submit').click(function(){
+        params = {};
+        params['note'] = {};
+        params['note']['note_title'] = $('#note_title').val();
+        params['note']['note_date'] = $('#note_date').val();
+        params['note']['note_weather'] = $('#note_weather').val();
+        params['note']['note_tag'] = $('#note_tag').val();
+        params['note']['note_content'] = $('#content').val();
+        if($('#note_title').val()=='' || $('#content').val()=='' || $('#note_date').val()==''|| $('#note_weather').val()==''){
+            alert('请勿提交无效的笔记！');
+            return false;
+        }else{
+            $.post('/create_note', params);
+            location.replace(location.href= '/info_center');
+        }
+    });
+</script>

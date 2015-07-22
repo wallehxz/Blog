@@ -1,0 +1,103 @@
+<%= content_for(:title, @game_life.live_title) %>
+<%= render partial: 'share/active_robot' %>
+<div class="container marketing" style="padding-top: 100px">
+  <div class="box span11">
+        <div class="box-content" style="background: url(<%= @game_life.person_cover %>);;">
+          <legend>
+            <h2 style="color: white"><%= @game_life.live_title %></h2>
+          </legend>
+          <div class="center">
+            <embed width="980" height="600" allownetworking="all" allowscriptaccess="always" src="http://staticlive.douyutv.com/common/share/play.swf?room_id=<%= @game_life.live_url %>" quality="high" bgcolor="#000" wmode="transparent" allowfullscreen="true" allowFullScreenInteractive="true" type="application/x-shockwave-flash">
+          </div>
+        </div>
+        <div style="padding-top: 15px">
+          <% if GameLive.where("attention > #{@game_life.attention}").order('attention asc').present? %>
+              <% shang = GameLive.where("attention > #{@game_life.attention}").order('attention asc') %>
+              <span style="float: left"><a href="/youxizhibo/<%= shang.first.id %>" class="btn">上主播：<%= shang.first.live_title %></a></span>
+          <% end %>
+          <% if GameLive.where("attention < #{@game_life.attention}").order('attention desc').present? %>
+              <% xia = GameLive.where("attention < #{@game_life.attention}").order('attention desc') %>
+              <span style="float: right"><a href="/youxizhibo/<%= xia.first.id %>" class="btn">下主播：<%= xia.first.live_title %></a></span>
+          <% end %>
+         </div>
+        <legend><span class="label label-important" style="font-size: 18px">看客热评</span></legend>
+
+        <div style="background-color: #e8e8e8;max-height: 200px;padding-left: 100px">
+          <div style="padding-top: 20px;padding-left: 120px;padding-bottom: 10px">
+            <textarea id="discuss" placeholder="请在这里键入您的评论" style="height: 70px;width: 452px;max-width: 452px;max-height: 150px"></textarea>
+            <span style="padding-left: 50px;margin-top: 50px"><button  class="btn btn-large btn-primary" id="submit">发表评论</button></span>
+          </div>
+        </div>
+        <a id="comment"></a>
+    <div id="chat" style="overflow:scroll;overflow-x:hidden;overflow-y:auto;max-height: 800px;padding-right: 20px;padding-left: 20px">
+          <ul id="chat-content" class="content-reply-box mg10">
+            <% @game_comment.each do |item| %>
+                <% if @current_user.present? && item.user_id == @current_user.id%>
+                    <li class="chat-right">
+                <% else %>
+                    <li class="chat-left">
+                <% end %>
+                <a class="user ui-link" title="<%= User.find_by_id(item.user_id).account %>" href="/user?account=<%= User.find_by_id(item.user_id).account %>">
+                  <img class="img-responsive avatar_" src="<%= User.find_by_id(item.user_id).avatar || Admin::AVATAR[rand(13)] %>" width="44" height="44" alt="">
+                </a>
+                <div class="reply-content-box">
+                  <span class="reply-time"><%= item.created_at.strftime('%m-%d %H:%M')%></span>
+                  <div class="reply-content pr">
+                    <span class="arrow">&nbsp;</span>
+                    <%= item.comment %>
+                  </div>
+                </div>
+                </li>
+            <% end %>
+          </ul>
+        </div>
+  </div>
+</div>
+
+<% if @current_user.present? %>
+    <% current_id = @current_user.id %>
+<% else %>
+    <% current_id = 0 %>
+<% end %>
+
+<script>
+
+    $('#submit').click(function(){
+        params = {};
+        params['game_comment'] = {};
+        params['game_comment']['game_id'] = <%= @game_life.id %>;
+        params['game_comment']['user_id'] = <%= current_id  %>;
+        params['game_comment']['comment'] = $('#discuss').val();
+        if(params['game_comment']['user_id']==0) {
+            alert('您没有登录,无法评论');
+            $('#discuss').val('');
+            return false;
+        }
+        if(params['game_comment']['comment'].trim()==''){
+            alert('请至少说点什么吧！');
+            return false;
+        }else{
+            $.post('/game_comments', params,function(data){
+                if(data.status == 200){
+                    var new_comment = '';
+                    new_comment +='<li class="chat-right">';
+                    new_comment +='<a class="user ui-link">';
+                    new_comment +='<img width="44" height="44" alt="" class="img-responsive avatar_" src='+ '<% if @current_user.present? %><%= @current_user.avatar || Admin::AVATAR[rand(13)] %><% end %>' + '>';
+                    new_comment +='<span class="user-name">'+'<% if @current_user.present? %><%= @current_user.account %><% end%>'+'</span></a>';
+                    new_comment +='<div class="reply-content-box">';
+                    new_comment +='<span class="reply-time">' + '<%= Time.now.strftime('%m-%d %H:%M') %>' + '</span>';
+                    new_comment +='<div class="reply-content pr">';
+                    new_comment +='<span class="arrow">&nbsp;</span>';
+                    new_comment += $('#discuss').val();
+                    new_comment +='</div></div></li>';
+                    $("#chat-content").append(new_comment);
+                    $('#discuss').val('');//清空用户评论
+                    window.location.href = '/youxizhibo/' + <%= @game_life.id %> +'#comment';
+                }else{
+                    alert('一般刷帖的人被称为水军');
+                    return false;
+                }
+            });
+        }
+    });
+</script>

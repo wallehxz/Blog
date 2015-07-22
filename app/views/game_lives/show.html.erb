@@ -1,0 +1,35 @@
+<div>
+  <div class="box-content">
+    <legend>
+      <h2><%= @game_life.live_title %></h2>
+    </legend>
+    <div class="center">
+      <embed width="780" height="485" allownetworking="all" allowscriptaccess="always" src="http://staticlive.douyutv.com/common/share/play.swf?room_id=<%= @game_life.live_url %>" quality="high" bgcolor="#000" wmode="transparent" allowfullscreen="true" allowFullScreenInteractive="true" type="application/x-shockwave-flash">
+    </div>
+  </div>
+  <legend><span class="label label-important" style="font-size: 20px">粉丝热评</span></legend>
+  <a id="comment"></a>
+  <div id="chat" style="overflow:scroll;overflow-x:hidden;overflow-y:auto;max-height: 800px;padding-right: 20px;padding-left: 20px">
+    <ul id="chat-content" class="content-reply-box mg10">
+      <% @game_comment.each do |item| %>
+          <% if rand(2) == 1 %>
+              <li class="chat-right">
+          <% else %>
+              <li class="chat-left">
+          <% end %>
+          <a class="user ui-link" title="<%= User.find_by_id(item.user_id).account %>" href="/user?account=<%= User.find_by_id(item.user_id).account %>">
+            <img class="img-responsive avatar_" src="<%= User.find_by_id(item.user_id).avatar || Admin::AVATAR[rand(13)] %>" width="44" height="44" alt="">
+          </a>
+          <div class="reply-content-box">
+            <span class="reply-time"><%= item.created_at.strftime('%m-%d %H:%M')%></span>
+            <div class="reply-content pr">
+              <span class="arrow">&nbsp;</span>
+              <%= item.comment %>
+            </div>
+          </div>
+          </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+

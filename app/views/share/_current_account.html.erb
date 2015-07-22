@@ -1,0 +1,22 @@
+<% if current_user.present?%>
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: #ff0000"><%= current_user.nickname || current_user.account %><b class="caret"></b></a>
+    <ul class="dropdown-menu">
+        <li class="divider"></li>
+        <li><a href="/info_center">个人中心</a></li>
+        <li><a href="/my_card">我的名片</a></li>
+        <li><a href="/my_embarrass">我的糗事</a></li>
+        <li><a href="/my_topic">我的帖子</a></li>
+        <li><a href="/my_note">我的备忘录</a></li>
+        <li><a href="my_info/completion">完善账户信息</a></li>
+        <li class="divider"></li>
+        <li><a href="/account/user_logout/<%= current_user.id %>?back_url=<%= request.url %>">账号登出</a></li>
+    </ul>
+<% else %>
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color: #FDF216">❤  欢迎您丶<%= User.ip_to_city request.remote_ip %><b class="caret"></b></a>
+    <ul class="dropdown-menu">
+        <li class="divider"></li>
+        <li><a href="/wuziqi"><i class="icon-fire"></i> 休闲娱乐</a></li>
+        <li><a href="/sign_in"><i class="icon-plus"></i> 账号注册</a></li>
+        <li><a href="/sign_up?back_url=<%= request.url %>"><i class="icon-hand-up"></i> 账号登录</a></li>
+    </ul>
+<% end %>

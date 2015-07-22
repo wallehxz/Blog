@@ -1,0 +1,28 @@
+##开发环境
+#development:
+#adapter: postgresql
+#database: HX-Meteor
+#host: localhost
+#port: 5432
+#username: postgres
+#password: 520677
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  username: postgres
+  password: 520677
+
+development:
+  <<: *default
+  database: "HX-Meteor"
+
+#生产环境
+production:
+adapter: postgresql
+host: 10.9.27.243
+database: Meteor_SQL
+port: 5435
+name: db9efbede9a384ab7ad9adeb8a4261284
+password: p762fee0635c64bfdb370887cc88fd03d

@@ -1,0 +1,36 @@
+<div class="box-header well" data-original-title><!-- 动态标题栏 -->
+  <h2><i class="icon-text-height"></i> 技术分享</h2>
+  <div class="box-icon">
+    <a title="新贴" href="/topics/new" class="btn btn-round"><i class="icon-plus"></i></a>
+  </div>
+</div>
+
+ <div class="row-fluid sortable"><div></div><!-- 动态表单 -->
+
+    <% @topics.each do |item| %>
+       <div class="box">
+             <div class="box-header well" data-original-title>
+               <h2><%= link_to item.topic_title,item %></h2>
+               <div class="box-icon">
+                 <a href="/topics/<%= item.id %>/edit" class="btn btn-round"><i class="icon-cog"></i></a>
+                 <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+				 <a href="/topics/delete/<%= item.id %>" class="btn btn-round" onClick="if(confirm('确定要删除该贴么吗？'))return true;return false;"><i class="icon-remove"></i></a>
+               </div>
+             </div>
+             <div class="box-content">
+               <span class="label label-warning" style="font-size: 14px"><%= item.topic_type %></span>
+               <% if item.topic_tag.present? %><br><br>
+                    <% item.topic_tag.gsub('-','').split(' ').each do |tag| %>
+                       <span class="label label-success" style="font-size: 12px"><%= tag %></span>
+                    <% end %>
+               <% end %>
+               <legend></legend>
+               <p title="<%= item.topic_title %>" style="height: 200px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                 <%= truncate(strip_tags(raw(item.topic_content)),:length=>800) %>
+               </p>
+             </div>
+       </div>
+    <% end %>
+
+ </div>
+<div><%= will_paginate @topics , :class => 'apple_pagination', :previous_label => '上一页', :next_label => '下一页' %></div>

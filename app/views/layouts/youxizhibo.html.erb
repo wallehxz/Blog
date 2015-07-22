@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title><%= yield(:title) %>  ❤  大豆芽</title>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap-responsive.css">
+  <link rel="stylesheet" type="text/css" href="/stylesheets/carousel.css">
+  <link rel="stylesheet" type="text/css" href="/stylesheets/charisma-app.css">
+  <link rel="stylesheet" type="text/css" href="/stylesheets/chat-bubble.css">
+  <link rel="stylesheet" type="text/css" href="/stylesheets/will_paginate.css">
+  <%= render :partial=> 'share/javascripts' %>
+  <link rel="shortcut icon" href="/img/lol/douya.png">
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<div>
+  <div class="navbar-wrapper" style="position: fixed">
+    <div class="container">
+      <div class="navbar navbar-inverse">
+        <div class="navbar-inner" style="filter:alpha(Opacity=60);-moz-opacity:0.6;opacity:0.6">
+          <a class="brand" href="/index"><img src="/img/lol/douya.png" width="30px" height="30px">&nbsp;丶大豆芽</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li><a href="/rubyonrails">Ruby<i class="icon-bookmark"></i>Rails</a></li>
+              <li><a href="/qiushibaike">糗事<i class="icon-heart"></i>百科</a></li>
+              <li><a href="/qingsongyike">轻松<i class="icon-green icon-music"></i>一刻</a></li>
+              <li class="active"><a href="/youxizhibo">游戏<i class="icon-facetime-video"></i>直播</a></li>
+              <li class="dropdown">
+                <%= render :partial=>'share/current_account' %>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%= yield %>
+</div>
+<hr>
+<%= render :partial=>'share/footer' %>
+</body>
+</html>

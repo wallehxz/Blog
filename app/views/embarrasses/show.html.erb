@@ -1,0 +1,64 @@
+<div class="box-content">
+  <div>
+    <div style="float: left">
+      <a id="applaud_btn" href="javascript:point_applaud('<%= @embarrass.id %>')" class="btn btn-large"><i class="icon-thumbs-up" style="padding-right: 10px"></i><span id="applaud_total"><%= @embarrass.chan_count %></span></a>
+    </div>
+    <div style="float: right">
+      <a href="/embarrasses/<%= @embarrass.id %>" class="btn btn-large" data-confirm ="确定要删除该贴么" data-method="delete"><i class="icon-remove"></i></a>
+    </div>
+  </div>
+  <legend>
+    <div style="margin: 15px 50px;">
+      <h3> &nbsp;&nbsp;&nbsp;&nbsp;<%= @embarrass.process %></h3>
+    </div>
+  </legend>
+    <div style="text-align: center">
+      <img src="<%= @embarrass.picture %>">
+    </div>
+  <div style="padding-top: 15px">
+    <% if Embarrass.find_by_id(@embarrass.id-1).present? %>
+        <span style="float: left"><a href="/embarrasses/<%= @embarrass.id-1 %>" class="btn btn-link">上糗：<%= truncate(Embarrass.find_by_id(@embarrass.id-1).process, :length=>12)%></a></span>
+    <% end %>
+    <% if Embarrass.find_by_id(@embarrass.id+1).present? %>
+        <span style="float: right"><a href="/embarrasses/<%= @embarrass.id+1 %>" class="btn btn-link">下糗：<%= truncate(Embarrass.find_by_id(@embarrass.id+1).process, :length=>12) %></a></span>
+    <% end %>
+    <hr style="color: #0099cc">
+  </div>
+  <a id="comment"></a>
+  <div id="chat" style="overflow:scroll;overflow-x:hidden;overflow-y:auto;max-height: 800px;padding-right: 20px;padding-left: 20px">
+    <ul id="chat-content" class="content-reply-box mg10">
+      <% @embarrass_comment.each do |item| %>
+          <% if rand(2) == 1 %>
+              <li class="chat-right">
+          <% else %>
+              <li class="chat-left">
+          <% end %>
+          <a class="user ui-link" title="<%= User.find_by_id(item.user_id).account %>" href="/user?account=<%= User.find_by_id(item.user_id).account %>">
+            <img class="img-responsive avatar_" src="<%= User.find_by_id(item.user_id).avatar || Admin::AVATAR[rand(13)] %>" width="44" height="44" alt="">
+          </a>
+          <div class="reply-content-box">
+            <span class="reply-time"><%= item.created_at.strftime('%m-%d %H:%M')%></span>
+            <div class="reply-content pr">
+              <span class="arrow">&nbsp;</span>
+              <%= item.comment %>
+            </div>
+          </div>
+          </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<script>
+
+    function point_applaud(embarrass_id){
+        $.get('/embarrasses/applaud',{id: embarrass_id},function(data){
+            if(data.status == 200){
+                $('#applaud_btn').attr('href','#');
+                $('#applaud_btn').attr('class','btn btn-large btn-success');
+                $('#applaud_total').text("<%= @embarrass.chan_count + 1 %>");
+            }
+        })
+    }
+
+</script>

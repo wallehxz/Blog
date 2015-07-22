@@ -1,0 +1,157 @@
+<%= content_for(:title, current_user.account) %>
+<!-- devise的提示信息 start -->
+<%= render :partial => 'share/flash_tip' %>
+<!-- devise的提示信息 end -->
+
+<!-- 用户数据模块 start-->
+ <div class="sortable row-fluid">
+      <a data-rel="tooltip" title="分享,帮助他人-快乐自己" class="well span3 top-block" href="#">
+            <span class="icon32 icon-red icon-book"></span>
+            <div>Topics - 帖子</div>
+            <div><%= Topic.word_count(current_user.id) %></div>
+            <span class="notification"><%= Topic.where(:user_id => current_user.id).count %></span>
+      </a>
+
+      <a data-rel="tooltip" title="快乐,你就不孤单" class="well span3 top-block" href="#">
+            <span class="icon32 icon-orange icon-heart"></span>
+            <div>Embarrass - 糗事</div>
+            <div><%= Embarrass.word_count(current_user.id) %></div>
+            <span class="notification green"><%= Embarrass.where(:user_id => current_user.id).count %></span>
+      </a>
+
+      <a data-rel="tooltip" title="一分笔记,一份回忆" class="well span3 top-block" href="#">
+            <span class="icon32 icon-green icon-compose"></span>
+            <div>Notes - 记事本</div>
+            <div><%= Note.word_count(current_user.id) %></div>
+            <span class="notification yellow"><%= Note.where(:user_id => current_user.id).count %></span>
+      </a>
+
+      <a data-rel="tooltip" title="积累,是一种美德" class="well span3 top-block" href="#">
+            <span class="icon32 icon-color icon-globe"></span>
+            <div>Integration - 积分</div>
+            <div><%= current_user.integration %></div>
+            <span class="notification red"><%= current_user.integration %></span>
+      </a>
+ </div>
+<hr>
+<!-- 用户数据模块 end-->
+
+<!-- 轻松一刻模块 start-->
+<div class="row-fluid sortable"><div></div>
+  <% RelaxMoment.order('relax_time desc').limit(2).each do |item| %>
+      <div class="box span5">
+        <div class="box-header well" data-original-title>
+          <span style="font-family: Comic Sans MS;font-size: 20px;color: #1abc9c"><%= item.relax_time %></span>
+          <div class="box-icon">
+            <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+            <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
+          </div>
+        </div>
+        <div class="box-content">
+          <h2>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="/qingsongyike/<%= item.id %>"><%= item.relax_title %></a>
+          </h2>
+          <legend>
+            <div class="center">
+              <object type="application/x-shockwave-flash" data="/player/dewplayer-vinyl.swf" width="303" height="113" id="dewplayervinyl" name="dewplayervinyl">
+                <param name="movie" value="/player/dewplayer-vinyl.swf" />
+                <param name="flashvars" value="xml=/player/dewplay.xml&mp3=<%= item.relax_audio %>&volume=85&javascript=off"/>
+              </object>
+            </div>
+          </legend>
+          <p>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <%= truncate(strip_tags(raw(item.relax_content)),:length=>160) %>
+          </p>
+        </div>
+      </div>
+  <% end %>
+</div>
+<!-- 轻松一刻模块 end-->
+
+<!-- 技术贴 start-->
+<div class="row-fluid sortable"><div></div>
+  <% Topic.where(:user_id => current_user.id).order('created_at desc').limit(2).each do |item| %>
+      <div class="box span5">
+        <div class="box-header well" data-original-title>
+          <span class="label label-warning" style="font-size: 18px"><i class="icon-flag"></i> </id><%= item.topic_type %></span>
+          <div class="box-icon">
+            <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+            <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
+          </div>
+        </div>
+        <div class="box-content">
+          <a href="/rubyonrails/<%= item.id %>"><span class="label label-important" style="font-size: 14px;"><%= item.topic_title %></span></a><br>
+          <div style="padding-top: 10px">
+          <% if item.topic_tag.present? %>
+              <% item.topic_tag.gsub('-','').split(' ').each do |tag| %>
+                  <span class="label label-success" style="font-size:14px"><i class="icon-tags"></i> <%= tag %></span>
+              <% end %>
+          <% end %>
+          </div>
+          <hr >
+          <p title="<%= item.topic_title %>" style="font-size: 16px">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <%= truncate(strip_tags(raw(item.topic_content)),:length=>400) %>
+          </p>
+        </div>
+      </div>
+  <% end %>
+</div>
+<hr>
+<!-- 技术贴 end-->
+
+<!-- 个人糗事 start-->
+<div class="row-fluid sortable"><div></div>
+
+  <% Embarrass.where(:user_id => current_user.id).order('chan_count desc').limit(2).each do |item| %>
+      <div class="box span5">
+        <div class="box-header well" data-original-title>
+          <span style="font-size: 18px;color: #ff0084"><i class="icon-thumbs-up"></i> <%= item.chan_count %></span>
+          <div class="box-icon">
+            <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+            <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
+          </div>
+        </div>
+        <div class="box-content">
+          <span style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= item.process %></span>
+          <% if item.picture.present? %>
+              <legend>
+              </legend>
+              <div class="center">
+                <img src="<%= item.picture %>" style="max-width: 240px">
+              </div>
+          <% end %>
+        </div>
+      </div>
+  <% end %>
+  <% if Embarrass.where(:user_id => current_user.id).order('chan_count desc').limit(2).count == 2 %>
+        </div>
+        <hr>
+        <div class="row-fluid sortable"><div></div>
+  <% end %>
+  <!-- 个人糗事 end-->
+<!-- 个人笔记 start-->
+  <% Note.where(:user_id => current_user.id).order('note_date desc').limit(2).each do |item| %>
+      <div class="box span5">
+        <div class="box-header well" data-original-title>
+          <span style="font-size: 18px;"><i class="icon-calendar"></i><%= item.note_date %> 笔记</span>
+          <div class="box-icon">
+            <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+            <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
+          </div>
+        </div>
+        <div class="box-content">
+          <legend>
+            <span class="label label-warning" style="font-size: 14px"><i class="icon-tags"></i><%= item.note_title %></span><br>
+            <span class="label label-success" style="font-size: 12px"><i class="icon-globe"></i>天气-<%= item.note_weather %></span>
+            <span class="label label-important" style="font-size: 12px"><i class="icon-heart"></i><%= item.note_tag %></span>
+          </legend>
+          <p style="font-size: 16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <%= raw(item.note_content) %>
+          </p>
+        </div>
+      </div>
+  <% end %>
+  <!-- 个人笔记 end-->
+</div>

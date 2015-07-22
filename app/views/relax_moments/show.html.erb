@@ -1,0 +1,42 @@
+<div class="box-content" style="background-color: #ffffff">
+  <legend>
+    <span class="label label-success" style="font-size: 15px;"><%= @relax_moment.relax_time %></span><br>
+    <h2 class="center"><%= @relax_moment.relax_title %></h2>
+    <div style="text-align: right">
+      <audio  controls="controls" autoplay="autoplay" src="<%= @relax_moment.relax_audio %>"></audio>
+    </div>
+  </legend>
+  <%= raw(@relax_moment.relax_content) %>
+  <div style="padding-top: 15px">
+    <% if RelaxMoment.find_by_id(@relax_moment.id-1).present? %>
+        <span style="float: left"><a href="/relax_moments/<%= @relax_moment.id-1 %>" class="btn btn-link">上刻：<%= RelaxMoment.find_by_id(@relax_moment.id-1).relax_time %></a></span>
+    <% end %>
+    <% if RelaxMoment.find_by_id(@relax_moment.id+1).present? %>
+        <span style="float: right"><a href="/relax_moments/<%= @relax_moment.id+1 %>" class="btn btn-link">下刻：<%= RelaxMoment.find_by_id(@relax_moment.id+1).relax_time %></a></span>
+    <% end %>
+    <hr style="color: #0099cc">
+  </div>
+  <a id="comment"></a>
+  <div id="chat" style="overflow:scroll;overflow-x:hidden;overflow-y:auto;max-height: 800px;padding-right: 20px;padding-left: 20px">
+    <ul id="chat-content" class="content-reply-box mg10">
+      <% @relax_comment.each do |item| %>
+          <% if rand(2) == 1 %>
+              <li class="chat-right">
+          <% else %>
+              <li class="chat-left">
+          <% end %>
+          <a class="user ui-link" title="<%= User.find_by_id(item.user_id).account %>" href="/user?account=<%= User.find_by_id(item.user_id).account %>">
+            <img class="img-responsive avatar_" src="<%= User.find_by_id(item.user_id).avatar || Admin::AVATAR[rand(13)] %>" width="44" height="44" alt="">
+          </a>
+          <div class="reply-content-box">
+            <span class="reply-time"><%= item.created_at.strftime('%m-%d %H:%M')%></span>
+            <div class="reply-content pr">
+              <span class="arrow">&nbsp;</span>
+              <%= item.comment %>
+            </div>
+          </div>
+          </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

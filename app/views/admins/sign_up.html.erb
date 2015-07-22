@@ -1,0 +1,78 @@
+<div class="container-fluid" style="padding-top: 100px">
+  <div class="row-fluid">
+    <div class="row-fluid">
+      <div class="span9 center login-header">
+        <div class="alert alert-success">
+          <h2>大豆芽 ❤ 申请新管理员账号 </h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="row-fluid">
+      <div class="well span5 center login-box">
+        <% if flash[:notice] %>
+            <div class="alert alert-info">
+              <button type="button" class="close" data-dismiss="alert">×</button>
+              <%= notice %>
+            </div>
+        <% end %>
+        <% if flash[:alert] %>
+            <div class="alert alert-block ">
+              <button type="button" class="close" data-dismiss="alert">×</button>
+              <%= alert %>
+            </div>
+        <% end %>
+        <% if flash[:error] %>
+            <div class="alert alert-error">
+              <button type="button" class="close" data-dismiss="alert">×</button>
+              <%= flash[:error] %>
+            </div>
+        <% end %>
+        <% if flash[:success] %>
+            <div class="alert alert-success">
+              <button type="button" class="close" data-dismiss="alert">×</button>
+              <%= flash[:success] %>
+            </div>
+        <% end %>
+        <!-- devise的提示信息 end -->
+        <form accept-charset="utf-8" action="/admin/create" method="post">
+          <div class="input-prepend" title="请输入邀请码" data-rel="tooltip">
+            <span class="add-on"><i class="icon-qrcode"></i></span>
+            <input type="text" name="invitation" value="<%= params[:code] %>" class="input-large span6" placeholder="没有邀请码是不会注册成功的！">
+          </div>
+          <div class="clearfix"></div>
+
+          <div class="input-prepend" title="请输入昵称" data-rel="tooltip">
+            <span class="add-on"><i class="icon-comment"></i></span>
+            <input type="text" name="nickname" value="<%= params[:name] %>" class="input-large span6" placeholder="一个好的昵称有助于你装逼">
+          </div>
+          <div class="clearfix"></div>
+
+          <div class="input-prepend" title="请输入您的登陆账号" data-rel="tooltip" data-placement="top">
+            <span class="add-on"><i class="icon-user"></i></span>
+            <input type="text" name="account" value="<%= params[:account] %>" class="input-large span6" placeholder="手机/邮箱/QQ号">
+          </div>
+          <div class="clearfix"></div>
+
+          <div class="input-prepend" title="请输入您的登陆密码" data-rel="tooltip">
+            <span class="add-on"><i class="icon-lock"></i></span>
+            <input type="password" name="password" class="input-large span6" placeholder="听说密码越长越牛逼">
+          </div>
+          <div class="clearfix"></div>
+
+          <div class="input-prepend">
+            <label class="remember" for="remember"  title="记住我" data-rel="tooltip"><input type="checkbox" id="remember">记住账号</label>
+          </div>
+          <div class="clearfix"></div>
+
+          <p class="center span4">
+            <button type="submit" class="btn btn-large btn-danger">强势注册</button>
+          </p>
+          <div class="clearfix"></div>
+
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>

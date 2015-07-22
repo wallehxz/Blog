@@ -1,0 +1,38 @@
+<%= content_for(:title,'轻松一刻') %>
+<%= render partial: 'share/active_robot' %>
+<div class="container marketing" style="padding-top: 100px;">
+  <%= render partial: 'share/flash_tip' %>
+  <div class="box row-fluid sortable"><div></div><!-- 动态表单 -->
+    <% @relax_moments.each do |item| %>
+        <div class="box span5">
+          <div class="box-header well" data-original-title>
+            <span class="label label-warning" style="font-family: Comic Sans MS;font-size: 20px"><%= item.relax_time %></span>
+            <div class="box-icon">
+              <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+              <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
+            </div>
+          </div>
+          <div class="box-content">
+            <h2>&nbsp;&nbsp;&nbsp;&nbsp;
+              <a href="/qingsongyike/<%= item.id %>"><%= item.relax_title %></a>
+            </h2>
+            <legend>
+              <div class="center">
+                  <object type="application/x-shockwave-flash" data="/player/dewplayer-vinyl.swf" width="303" height="113" id="dewplayervinyl" name="dewplayervinyl">
+                    <param name="movie" value="/player/dewplayer-vinyl.swf" />
+                    <param name="flashvars" value="xml=/player/dewplay.xml&mp3=<%= item.relax_audio %>&volume=85&javascript=off"/>
+                  </object>
+                </div>
+            </legend>
+            <p>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <%= truncate(strip_tags(raw(item.relax_content)),:length=>160) %>
+            </p>
+          </div>
+        </div>
+    <% end %>
+  </div>
+  <div><!-- 动态标题栏 -->
+    <%= will_paginate @relax_moments , :class => 'apple_pagination', :previous_label => '上一页', :next_label => '下一页' %>
+  </div>
+</div>

@@ -1,0 +1,59 @@
+<%= content_for(:title, '糗事投稿') %>
+<div class="box-content">
+  <legend>有糗事  有笑点 ❤</legend>
+  <% if flash[:error] %>
+      <div class="alert alert-error">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <%= flash[:error] %>
+      </div>
+  <% end %>
+  <h4 style="text-align: right;color: #ff0000">❤人生在世丶无非是让别人笑笑，偶尔笑笑别人_______</h4>
+  <form action="/create_embarrass" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+    <!--enctype="multipart/form-data" 用于自定义上传文件-->
+    <div>
+      <div style="float: left;width: 65%;height: 200px;">
+        <table>
+          <tr>
+            <td><h3>图片：</h3></td>
+            <td><input type="file" id="imgInp" name="embarrass[picture]"  size="19" style="opacity: 0;" accept=".jpg,.gif,.png,.jpeg"></td>
+          </tr>
+          <tr><td><br><br></td></tr>
+          <tr>
+            <td><h3>糗事：</h3></td>
+            <td><textarea name="embarrass[process]" placeholder="独乐乐，不如众乐乐" style="height: 100px;width: 400px;max-width: 400px;max-height: 130px"></textarea></td>
+          </tr>
+        </table>
+
+      </div>
+      <div  title="上传图片预区" style="float: right;height: 200px;width: 35%;">
+        <div style="text-align: center;padding-top: 30px"><img id="blah"  style="max-width: 300px;max-height: 150px"/></div>
+      </div>
+    </div>
+    <div style="padding-top: 195px">
+      <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="保存糗事">
+        <button  class="btn" onclick="window.location='/topics'">取消</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+
+    $("#imgInp").change(function(){
+        readURL(this);
+    });
+
+    function readURL(input) {
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#blah').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+</script>

@@ -1,0 +1,153 @@
+<%= content_for(:title, @current_user.account) %>
+<div class="container">
+  <div class="col-lg-6 col-lg-offset-3">
+
+    <!-- ===== 菜单面板===== -->
+    <div class="row w">
+      <div class="col-md-4">
+        <img src="<%= @current_user.avatar %>" height="190px" width="190px">
+        <ul class="nav nav-tabs nav-stacked" id="myTab">
+          <li class="active"><a href="#about">基本</a></li>
+          <li><a href="#profile">简历</a></li>
+          <li><a href="#portfolio">项目</a></li>
+          <li><a href="#contact">联系</a></li>
+        </ul>
+      </div><!-- col-md-4 -->
+
+      <!-- ===== vCard Content ===== -->
+      <div class="col-md-8">
+        <div class="tab-content">
+
+          <!-- ===== First Tab ===== -->
+          <div class="tab-pane active" id="about">
+            <h3><%= @current_user.account %></h3>
+            <h5><%= @current_user.full_name %></h5>
+            <hr>
+            <div class="row">
+              <div class="col-xs-6">
+                <p class="sm">
+                  <font style="font-weight: bold">生日</font> | <font style="font-weight: bold;color: #e79e09"><%= @current_user.birthday %></font><br/>
+                  <font style="font-weight: bold">喜好</font> - <font style="font-weight: bold;color: #46a546"><%= @current_user.hobby %></font><br/>
+                </p>
+              </div><!-- col-xs-6 -->
+              <div class="col-xs-6">
+                <p class="sm">
+                  <font style="font-weight: bold">星座</font> | <font style="font-weight: bold;color: #2FABE9"><%= @current_user.constellation %></font> <br/>
+                  <font style="font-weight: bold">学历</font> - <font style="font-weight: bold;color: #ff0084"><%= @current_user.educational %></font> <br/>
+                </p>
+              </div><!-- col-xs-6 -->
+            </div><!-- row -->
+            <hr>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<font style="font-weight: bold"><%= @current_user.signature %></font></p>
+          </div><!-- tab about -->
+
+          <!-- ===== Second Tab ===== -->
+          <div class="tab-pane" id="profile">
+            <h4 style="padding-left: 20px"><font style="font-weight: bold">Job Experience</font></h4>
+            <hr>
+            <p class="sm">
+              <grey>公司</grey> | <%= @current_user.company %><br/>
+              <grey>职位</grey> | <%= @current_user.office %><br/>
+              <grey>时间</grey> | <%= @current_user.inauguration_time %><br/>
+            </p>
+
+            <h4 style="padding-left: 20px"><font style="font-weight: bold">Education</font></h4>
+            <hr>
+            <p class="sm">
+              <grey>院校</grey> | <%= @current_user.colleges %><br/>
+              <grey>专业</grey> | <%= @current_user.discipline %><br/>
+              <grey>时间</grey> | <%= @current_user.school_time %><br/>
+            </p>
+
+          </div><!-- Tab Profile -->
+
+          <!-- ===== Third Tab ===== -->
+          <div class="tab-pane" id="portfolio">
+            <div class="row">
+              <div class="col-xs-6 centered">
+                <img class="img-responsive" src="images/project/001.png" title="手机">
+                <% if @current_user.project_name1.present? && @current_user.project_url1.present?%>
+                    <a href="<%= @current_user.project_url1 %>" target="_blank"><h6><%= @current_user.project_name1 %></h6></a>
+                <% else %>
+                    <a href="#"><h6>Phone</h6></a>
+                <% end %>
+              </div><!-- col-xs-6 -->
+              <div class="col-xs-6 centered">
+                <img class="img-responsive" src="images/project/002.png" title="推荐">
+                <% if @current_user.project_name2.present? && @current_user.project_url2.present?%>
+                    <a href="<%= @current_user.project_url2 %>" target="_blank"><h6><%= @current_user.project_name2 %></h6></a>
+                <% else %>
+                    <a href="#"><h6>Propose</h6></a>
+                <% end %>
+              </div><!-- col-xs-6 -->
+            </div><!-- row -->
+
+            <div class="row">
+              <br>
+              <div class="col-xs-6 centered">
+                <img class="img-responsive" src="images/project/003.png" title="合作">
+                <% if @current_user.project_name3.present? && @current_user.project_url3.present?%>
+                    <a href="<%= @current_user.project_url3 %>" target="_blank"><h6><%= @current_user.project_name3 %></h6></a>
+                <% else %>
+                    <a href="#"><h6>Cooperation</h6></a>
+                <% end %>
+              </div><!-- col-xs-6 -->
+              <div class="col-xs-6 centered">
+                <img class="img-responsive" src="images/project/004.png" title="独立">
+                <% if @current_user.project_name4.present? && @current_user.project_url4.present?%>
+                    <a href="<%= @current_user.project_url4 %>" target="_blank"><h6><%= @current_user.project_name4 %></h6></a>
+                <% else %>
+                    <a href="#"><h6>Independent</h6></a>
+                <% end %>
+              </div><!-- col-xs-6 -->
+            </div><!-- row -->
+          </div><!-- /Tab Portfolio -->
+
+          <!-- ===== Fourth Tab ===== -->
+          <div class="tab-pane" id="contact">
+            <h4>联系信息</h4>
+            <hr>
+            <div class="row">
+              <div style="margin: 0px 30px 10px">
+                <p>电话  - <%= @current_user.phone %></p>
+                <span>邮箱 - <%= @current_user.email %></span>
+              </div>
+
+            </div><!-- row --><br>
+
+            <h4>社会链接</h4>
+            <hr>
+            <div class="row">
+              <div class="col-xs-6">
+                <p class="sm">
+                  微信 - <a target="blank" href="https://wx.qq.com/<%= @current_user.weixin %>"><%= @current_user.weixin %></a><br/>
+                  ＱＱ - <a target="blank" href="tencent://message/?uin=<%= @current_user.qq %>&Site=gxlinzi.cn35so.cn&Menu=yes"><%= @current_user.qq %></a>
+                </p>
+              </div><!-- col-xs-6 -->
+
+              <div class="col-xs-6">
+                <p class="sm">
+                  微博 - <a target="blank" href="http://weibo.com/u/<%= @current_user.weibo %>"><%= @current_user.weibo %></a><br/>
+                  ＹＹ - <%= @current_user.yy %>
+                </p>
+              </div><!-- col-xs-6 -->
+            </div><!-- row -->
+          </div><!-- Tab Contact -->
+
+        </div><!-- Tab Content -->
+      </div><!-- col-md-8 -->
+    </div><!-- row w -->
+  </div><!-- col-lg-6 -->
+</div><!-- /.container -->
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+
+<script>
+    $('#myTab a').click(function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+    })
+</script>

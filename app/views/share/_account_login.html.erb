@@ -1,0 +1,28 @@
+<link href="../../../vendor/assets/stylesheets/account_login.css" media="screen" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="../../../vendor/assets/javascripts/jquery.blockUI.js">
+    function user_login(){
+        $.blockUI({
+            sition:'fixed',
+            message: "<div  class='popup'>"
+                    + "<div class='pop-box'>"
+                    + "<div class='pop-tit'>"
+                    + "<h2 class='ff-ms'>手机客户端下载</h2>"
+                    + "<a class='close' href='javascript:$.unblockUI();'></a></div>"
+                    + "<div class='pop-cont'>"
+                    + "<div class='clearfix'>"
+                    + "<h3 class='dl_h3'>下载到电脑</h3>"
+                    + "<div class='dl_bar'><a class='dl_btn' href='http://www.gldjc.com/uploads/files/gcapp/release/GuangCaiClient.apk'></a><a class='dl_btn dl_btn2' href='http://itunes.apple.com/cn/app/mogujie/id700336188' target='_blank'></a></div>"
+                    + "</div>"
+                    + "<div class='download2 clearfix'>"
+                    + "<h3 class='dl_h3'>二维码下载</h3>"
+                    + "<span class='dl_ewm'></span>"
+                    + "<p class='ewm_msg'>支持任何型号手机，扫码即可下载。</p>"
+                    + "</div></div></div></div>",
+            css: {
+                left: ($(window).width() - 500) / 2 + 'px',
+                top: ($(window).height() - 500) / 2 + 'px',
+                border: 'none'
+            }
+        });
+    };
+</script>

@@ -1,0 +1,141 @@
+<%= render partial: 'share/site_header' %>
+<%= render partial: 'share/site_carousel' %>
+<%= render partial: 'share/active_robot' %>
+<div class="container marketing" style="margin-top: -70px">
+      <hr class="featurette-divider">
+  <%= render partial: 'share/flash_tip' %>
+      <div class="featurette">
+        <div class="featurette-image pull-left" style="padding-left: 100px">
+          <div id="youkuplayer" style="width:960px;height:540px"></div>
+        </div>
+      </div>
+      <hr class="featurette-divider">
+
+      <div class="row">
+        <% Topic.order('id desc').limit(3).each do |item| %>
+            <div class="span4">
+              <img class="img-circle" src="<%= Admin::AVATAR[rand(13)] %>" data-src="holder.js/140x140">
+              <h3 title="<%= item.topic_title %>" style="color: #2FABE9"><%= item.topic_title[0,20] %></h3>
+              <p style="height: 130px;text-align: left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= truncate(strip_tags(raw(item.topic_content)),:length=>150) %></p>
+              <p><a class="btn" href="/rubyonrails/<%= item.id %>"><i class="icon-hand-right"></i> 猛戳详情</a></p>
+            </div>
+        <% end %>
+      </div>
+      <hr class="featurette-divider">
+
+      <div class="my-line" style="padding-bottom: 20px">
+        <div style="float: left;width: 60%">
+          <h2 class="featurette-heading">轻松一刻是网易的 | <span class="muted" style="font-size: 30px;color: #0099cc">也是大家的</span></h2>
+          <p class="lead" style="padding-right: 15px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            轻松一刻指的是享受当下，为自己减压，哪怕只有一刻钟的时间。
+            “轻松”指不感到有负担、不紧张，可以是身体上的，也可以是精神上的；”一刻“则表示某个特定时间。在竞争压力巨大的当今社会，
+            这也是一种积极的生活态度。这并不代表堕落，只是给生活添加更多的乐趣。</p>
+        </div>
+        <div style="float: right;width: 40%;background: url('/img/lol/qsyk.jpg')">
+          <div style="margin: 110px 42px 10px">
+            <object type="application/x-shockwave-flash" data="/player/dewplayer-vinyl.swf" width="303" height="113" id="dewplayervinyl" name="dewplayervinyl">
+              <param name="movie" value="/player/dewplayer-vinyl.swf" />
+              <param name="flashvars" value="xml=/player/dewplay.xml&mp3=
+            <% RelaxMoment.order('relax_time DESC').limit(10).each do |item| %>
+                <%= item.relax_audio %>|
+            <% end %>
+            &volume=85&javascript=off"/>
+            </object>
+          </div>
+        </div>
+      </div>
+
+     <div class="featurette">
+          <div style="margin-top:-120px;">
+            <div class="row-fluid sortable"><div></div>
+              <% RelaxMoment.order('relax_time desc').limit(2).each do |item| %>
+                  <div class="box span5">
+                    <div class="box-header well" data-original-title>
+                      <span style="font-size: 20px;color: #1abc9c"><%= item.relax_time %></span>
+                      <div class="box-icon">
+                        <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+                        <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
+                      </div>
+                    </div>
+                    <div class="box-content" style="background-color: #c4e3f3">
+                      <h2>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="/qingsongyike/<%= item.id %>"><%= item.relax_title %></a>
+                      </h2>
+                      <legend>
+                        <div class="center">
+                          <object type="application/x-shockwave-flash" data="/player/dewplayer-vinyl.swf" width="303" height="113" id="dewplayervinyl" name="dewplayervinyl">
+                            <param name="movie" value="/player/dewplayer-vinyl.swf" />
+                            <param name="flashvars" value="xml=/player/dewplay.xml&mp3=<%= item.relax_audio %>&volume=85&javascript=off"/>
+                          </object>
+                        </div>
+                      </legend>
+                      <p>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <%= truncate(strip_tags(raw(item.relax_content)),:length=>160) %>
+                      </p>
+                    </div>
+                  </div>
+              <% end %>
+            </div>
+          </div>
+     </div>
+    <hr class="featurette-divider">
+    <div>
+      <div style="float: left;width: 45%;padding-top: 30px;">
+        <span style="margin-left: 20px"><a href="http://www.qiushibaike.com/" target="_blank"><img src="/img/lol/qsbk.png" width="468px"></a></span>
+      </div>
+
+      <div style="float: right;width: 55%">
+        <h2 class="featurette-heading">快乐 | <span class="muted" style="font-size: 30px;color: #0099cc">你就不孤单</span></h2>
+        <p class="lead">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;是以糗友真实糗事为主题的笑话网站，话题轻松休闲，在年轻人中十分流行。在糗事百科中可以查看他人发布的糗事并与网友分享自己亲身经历或听说到的油菜、杯具、草蛋、有意思的、不顺心的等各类情形的生活糗事。</p>
+      </div>
+    </div>
+    <div class="row-fluid sortable"><div></div>
+        <% Embarrass.order('chan_count desc').limit(2).each do |item| %>
+            <div class="box span5"  style="background-color: #ffffff">
+              <div class="box-header well" data-original-title>
+                <span style="font-size: 20px;color: #ff7d2b"><i class="icon-thumbs-up"></i>&nbsp;&nbsp;<%= item.chan_count %></span>
+                <div class="box-icon">
+                  <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+                  <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
+                </div>
+              </div>
+              <div class="box-content">
+                <legend>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <a href="/qiushibaike/<%= item.id %>" style="color: #000000" target="_blank"><%= item.process %></a>
+                </legend>
+                <% if item.picture.present? %>
+                    <div class="center">
+                      <img src="<%= item.picture %>" style="max-width: 360px">
+                    </div>
+                <% end %>
+              </div>
+            </div>
+        <% end %>
+    </div>
+</div>
+<script type="text/javascript" src="http://player.youku.com/jsapi">
+    player = new YKU.Player('youkuplayer',{
+        styleid: '6',
+        client_id: '9f88fcd420d33601',
+        vid: 'XODU1NTgzMjQ0',
+        autoplay: false,
+        show_related: false,
+        events:{
+            onPlayerReady: function(){ /*your code*/ }
+        }
+    });
+    function playVideo(){
+        player.playVideo();
+    }
+    function pauseVideo(){
+        player.pauseVideo();
+    }
+    function seekTo(s){
+        player.seekTo(s);
+    }
+    function currentTime(){
+        return player.currentTime();
+    }
+</script>

@@ -1,0 +1,2 @@
+module EmbarrassCommentsHelper
+end

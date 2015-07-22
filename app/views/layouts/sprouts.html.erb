@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>首页 ❤ 大豆芽</title>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.css" media="all">
+  <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap-responsive.css" media="all">
+  <link rel="stylesheet" type="text/css" href="/stylesheets/carousel.css" media="all">
+  <link rel="stylesheet" type="text/css" href="/stylesheets/charisma-app.css" media="all">
+  <%= render :partial=> 'share/javascripts' %>
+  <link rel="shortcut icon" href="/img/lol/douya.png">
+  <%= csrf_meta_tags %>
+</head>
+<body>
+    <div>
+      <%= yield %>
+    </div>
+  <hr>
+  <%= render :partial=>'share/footer' %>
+</body>
+</html>

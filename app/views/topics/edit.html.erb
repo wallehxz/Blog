@@ -1,0 +1,64 @@
+<div class="box-content">
+  <legend>更新帖子</legend>
+  <div style="padding-left: 35px;padding-bottom: 15px;;width: 755px">
+    <div  style="background-color: #ff7d2b;padding-left: 60px;padding-top: 10px;padding-bottom: 5px">
+      <table>
+        <tr>
+          <select id="topic_type">
+            <option value="">请选择技术类别</option>
+            <option value="Ruby" <% if @topic.topic_type=='Ruby' %>selected<%end%>>Ruby</option>
+            <option value="Rails" <% if @topic.topic_type=='Rails' %>selected<%end%>>Rails</option>
+            <option value="Gems" <% if @topic.topic_type=='Gems' %>selected<%end%>>Gems</option>
+            <option value="HTML" <% if @topic.topic_type=='HTML' %>selected<%end%>>HTML</option>
+            <option value="JavaScript" <% if @topic.topic_type=='JavaScript' %>selected<%end%>>JavaScript</option>
+            <option value="Other" <% if @topic.topic_type=='Other' %>selected<%end%>>Other</option>
+          </select>
+        </tr>
+        <tr><input class="span5" id="topic_title" value="<%= @topic.topic_title %>" placeholder="请在这里填写标题" size="30" type="text" /></tr>
+        <tr>
+          <select multiple data-rel="chosen" id="topic_tag" class="span5">
+            <option value="技术探讨" <% if @topic.topic_tag.include?('技术探讨')%>selected<%end%>>技术探讨</option>
+            <option value="技术分享" <% if @topic.topic_tag.include?('技术分享')%>selected<%end%>>技术分享</option>
+            <option value="代码优化" <% if @topic.topic_tag.include?('代码优化')%>selected<%end%>>代码优化</option>
+            <option value="疑难咨询" <% if @topic.topic_tag.include?('疑难咨询')%>selected<%end%>>疑难咨询</option>
+            <option value="开源学习" <% if @topic.topic_tag.include?('开源学习')%>selected<%end%>>开源学习</option>
+            <option value="新手教程" <% if @topic.topic_tag.include?('新手教程')%>selected<%end%>>新手教程</option>
+            <option value="模板展示" <% if @topic.topic_tag.include?('模板展示')%>selected<%end%>>模板展示</option>
+          </select>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div style="padding-left: 35px">
+    <div style="background-color: #31b0d5;width: 755px;padding-top: 20px;padding-bottom: 20px;padding-left: 5px">
+      <div style="padding-left: 55px;">
+        <%= render :partial => 'share/rich_text'%>
+      </div>
+      <div id="editor" style="overflow:scroll;overflow-x:hidden;overflow-y:auto; height:500px;width: 750px;background-color: white;">
+        <%= raw(@topic.topic_content) %>
+      </div>
+    </div>
+  </div>
+  <div class="form-actions">
+    <button  class="btn btn-primary" id="submit">更新旧帖</button>
+    <button  class="btn" onclick="window.location='/topics'">取消</button>
+  </div>
+</div>
+<script>
+    $('#submit').click(function(){
+        params = {};
+        params['topic'] = {};
+        params['topic']['id'] = <%= @topic.id %>;
+        params['topic']['topic_type'] = $('#topic_type').val();
+        params['topic']['topic_title'] = $('#topic_title').val();
+        params['topic']['topic_tag'] = $('#topic_tag').val();
+        params['topic']['topic_content'] = $('#editor').html();
+        if($('#topic_title').val()=='' || $('#topic_content').html()=='' || $('#topic_type').val()==''){
+            alert('请不要提交无效的帖子！');
+            return false;
+        }else{
+            $.post('/topics/update_topic', params);
+            window.location.href = '/topics';
+        }
+    });
+</script>

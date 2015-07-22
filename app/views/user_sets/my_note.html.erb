@@ -1,0 +1,27 @@
+<div class="row-fluid sortable"><div></div>
+  <% @note.each do |item| %>
+    <div class="box span5">
+      <div class="box-header well" data-original-title>
+        <span style="font-size: 18px;"><i class="icon-calendar"></i><%= item.note_date %> 笔记</span>
+        <div class="box-icon">
+          <a href="/edit_note/<%= item.id %>" class="btn"><i class="icon-edit"></i></a>
+          <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+          <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
+        </div>
+      </div>
+      <div class="box-content">
+        <legend>
+          <span class="label label-warning" style="font-size: 16px"><i class="icon-tags"></i><%= item.note_title %></span><br>
+          <span class="label label-success" style="font-size: 14px"><i class="icon-globe"></i>天气-<%= item.note_weather %></span>
+          <span class="label label-important" style="font-size: 14px"><i class="icon-heart"></i><%= item.note_tag %></span>
+        </legend>
+        <p style="font-size: 15px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <%= raw(item.note_content) %>
+        </p>
+      </div>
+    </div>
+  <% end %>
+</div>
+  <div>
+    <%= will_paginate @note , :class => 'apple_pagination', :previous_label => '上一页', :next_label => '下一页' %>
+  </div>

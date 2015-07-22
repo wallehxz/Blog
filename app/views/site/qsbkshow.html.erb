@@ -1,0 +1,130 @@
+<%= content_for(:title, truncate(@embarrass.process, :length=>10)) %>
+<%= render partial: 'share/active_robot' %>
+<div class="container marketing" style="padding-top: 100px">
+  <div class="box span8">
+      <div>
+        <div style="float: left">
+          <% if @current_user.present? && @embarrass.user_id == @current_user.id %>
+              <a id="applaud_btn" href="#" class="btn btn-large btn-danger"><i class="icon-thumbs-up" style="padding-right: 10px"></i><span id="applaud_total"><%= @embarrass.chan_count %></span></a>
+          <% else %>
+              <a id="applaud_btn" href="javascript:point_applaud('<%= @embarrass.id %>')" class="btn btn-large"><i class="icon-thumbs-up" style="padding-right: 10px"></i><span id="applaud_total"><%= @embarrass.chan_count %></span></a>
+          <% end %>
+         </div>
+        <div style="float: right">
+          <% if @current_user.present? && @embarrass.user_id == @current_user.id %>
+               <a href="/embarrasses/<%= @embarrass.id %>" class="btn btn-large" data-confirm ="确定要将自己的该糗事删除么？" data-method="delete"><i class="icon-remove"></i></a>
+          <% end%>
+        </div>
+      </div>
+      <legend>
+        <div style="margin: 15px 50px;">
+          <span style="font-size: 20px;color: #2FABE9">&nbsp;&nbsp;&nbsp;&nbsp;<%= @embarrass.process %></span>
+        </div>
+      </legend>
+      <div style="text-align: center">
+        <img src="<%= @embarrass.picture %>">
+      </div>
+      <div style="padding-top: 15px">
+        <% if Embarrass.find_by_id(@embarrass.id-1).present? %>
+            <span style="float: left"><a href="/qiushibaike/<%= @embarrass.id-1 %>" class="btn">上糗：<%= truncate(Embarrass.find_by_id(@embarrass.id-1).process, :length=>12)%></a></span>
+        <% end %>
+        <% if Embarrass.find_by_id(@embarrass.id+1).present? %>
+            <span style="float: right"><a href="/qiushibaike/<%= @embarrass.id+1 %>" class="btn">下糗：<%= truncate(Embarrass.find_by_id(@embarrass.id+1).process, :length=>12) %></a></span>
+        <% end %>
+        <hr style="color: #0099cc">
+      </div>
+
+    <div style="background-color: #e8e8e8;max-height: 200px">
+      <div style="padding-top: 20px;padding-left: 80px;padding-bottom: 10px">
+        <textarea id="discuss" placeholder="请在这里键入您的评论" style="height: 70px;width: 452px;max-width: 452px;max-height: 150px"></textarea>
+        <span  style="padding-left: 50px;margin-top: 50px"><button  class="btn btn-large btn-primary" id="submit">发表评论</button></span>
+      </div>
+    </div>
+
+      <a id="comment"></a>
+      <div id="chat" style="overflow:scroll;overflow-x:hidden;overflow-y:auto;max-height: 800px;padding-right: 20px;padding-left: 20px">
+        <ul id="chat-content" class="content-reply-box mg10">
+        <% @embarrass_comment.each do |item| %>
+              <% if @current_user.present? && item.user_id == @current_user.id%>
+                  <li class="chat-right">
+              <% else %>
+                  <li class="chat-left">
+              <% end %>
+              <a class="user ui-link" title="<%= User.find_by_id(item.user_id).account %>" href="/user?account=<%= User.find_by_id(item.user_id).account %>">
+                      <img class="img-responsive avatar_" src="<%= User.find_by_id(item.user_id).avatar || Admin::AVATAR[rand(13)] %>" width="44" height="44" alt="">
+                </a>
+                <div class="reply-content-box">
+                  <span class="reply-time"><%= item.created_at.strftime('%m-%d %H:%M')%></span>
+                  <div class="reply-content pr">
+                    <span class="arrow">&nbsp;</span>
+                    <%= item.comment %>
+                  </div>
+                </div>
+              </li>
+        <% end %>
+        </ul>
+      </div>
+  </div>
+
+  <div class="sortable span3">
+    <!--推广位置-->
+    <%#= render :partial=>'share/push_ad' %>
+    <%= render :partial=>'share/hot_news' %>
+  </div>
+</div>
+<% if @current_user.present? %>
+    <% current_id = @current_user.id %>
+<% else %>
+    <% current_id = 0 %>
+<% end %>
+<script>
+
+    $('#submit').click(function(){
+        params = {};
+        params['embarrass_comment'] = {};
+        params['embarrass_comment']['embarrass_id'] = <%= @embarrass.id %>;
+        params['embarrass_comment']['user_id'] = <%= current_id  %>;
+        params['embarrass_comment']['comment'] = $('#discuss').val();
+        if(params['embarrass_comment']['user_id']==0) {
+            alert('您没有登录,无法评论');
+            $('#discuss').val('');
+            return false;
+        }
+        if(params['embarrass_comment']['comment'].trim()==''){
+            alert('请至少说点什么吧！');
+            return false;
+        }else{
+            $.post('/embarrass_comments', params,function(data){
+                if(data.status == 200){
+                    var new_comment = '';
+                    new_comment +='<li class="chat-right">';
+                    new_comment +='<a class="user ui-link">';
+                    new_comment +='<img width="44" height="44" alt="" class="img-responsive avatar_" src='+ '<% if @current_user.present? %><%= @current_user.avatar || Admin::AVATAR[rand(13)] %><% end %>' + '>';
+                    new_comment +='<span class="user-name">'+'<% if @current_user.present? %><%= @current_user.account %><% end%>'+'</span></a>';
+                    new_comment +='<div class="reply-content-box">';
+                    new_comment +='<span class="reply-time">' + '<%= Time.now.strftime('%m-%d %H:%M') %>'  + '</span>';
+                    new_comment +='<div class="reply-content pr">';
+                    new_comment +='<span class="arrow">&nbsp;</span>';
+                    new_comment += $('#discuss').val();
+                    new_comment +='</div></div></li>';
+                    $("#chat-content").append(new_comment);
+                    $('#discuss').val('');  //将用户评论内容清空
+                    window.location.href = '/qiushibaike/' + <%= @embarrass.id %> +'#comment';
+                }else{
+                    alert('一般刷帖的人被称为水军');
+                    return false;
+                }
+            });
+        }
+    });
+
+    function point_applaud(embarrass_id){
+        $.get('/embarrasses/applaud',{id: embarrass_id},function(data){
+            if(data.status == 200){
+                $('#applaud_btn').attr('href','#');
+                $('#applaud_btn').attr('class','btn btn-large btn-success');
+                $('#applaud_total').text("<%= @embarrass.chan_count + 1 %>");
+            }
+        })
+    }
+</script>

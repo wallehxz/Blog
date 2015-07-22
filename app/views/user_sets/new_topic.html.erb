@@ -1,0 +1,62 @@
+<%= content_for(:title, '发布新帖') %>
+<div class="box-content">
+    <legend>发布新帖</legend>
+    <div style="padding-left: 35px;padding-bottom: 15px;;width: 755px">
+      <div  style="background-color: #31b0d5;padding-left: 60px;padding-top: 10px;padding-bottom: 5px">
+        <table>
+            <tr>
+                <select id="topic_type">
+                    <option value="">请选择技术类别</option>
+                    <option value="Ruby">Ruby</option>
+                    <option value="Gems">Gems</option>
+                    <option value="Rails">Rails</option>
+                    <option value="HTML">HTML</option>
+                    <option value="JavaScript">JavaScript</option>
+                    <option value="Other">Other</option>
+                </select>
+            </tr>
+            <tr><input class="span4" id="topic_title" size="30" type="text" placeholder="请在这里填写标题"  /></tr>
+            <tr>
+                <select multiple data-rel="chosen" id="topic_tag" class="span6">
+                    <option value="技术探讨">技术探讨</option>
+                    <option value="技术分享">技术分享</option>
+                    <option value="代码优化">代码优化</option>
+                    <option value="疑难咨询">疑难咨询</option>
+                    <option value="开源学习">开源学习</option>
+                    <option value="新手教程">新手教程</option>
+                    <option value="模板展示">模板展示</option>
+                </select>
+            </tr>
+        </table>
+      </div>
+    </div>
+    <div style="padding-left: 35px">
+        <div style="background-color: #ff7d2b;width: 755px;padding-left: 5px;padding-top: 20px;padding-bottom: 20px">
+              <div style="padding-left: 50px">
+              <%= render :partial => 'share/rich_text'%>
+              </div>
+            <div id="editor" style="overflow:scroll;overflow-x:hidden;overflow-y:auto; height:500px;width: 750px;background-color: white"></div>
+        </div>
+    </div>
+    <div class="form-actions">
+        <button  class="btn btn-primary" id="submit">保存新帖</button>
+        <button  class="btn" onclick="window.location='/info_center'">取消</button>
+    </div>
+</div>
+<script>
+    $('#submit').click(function(){
+        params = {};
+        params['topic'] = {};
+        params['topic']['topic_type'] = $('#topic_type').val();
+        params['topic']['topic_title'] = $('#topic_title').val();
+        params['topic']['topic_tag'] = $('#topic_tag').val();
+        params['topic']['topic_content'] = $('#editor').html();
+        if($('#topic_title').val()=='' || $('#topic_content').html()=='' || $('#topic_type').val()==''){
+            alert('请不要提交无效的帖子！');
+            return false;
+        }else{
+            $.post('/create_topic', params);
+            location.replace(location.href= '/info_center');
+        }
+    });
+</script>

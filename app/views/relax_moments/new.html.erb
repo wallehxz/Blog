@@ -1,0 +1,71 @@
+<div class="box-content" style="background-color: #ffffff">
+  <legend>轻松一刻 | 开心一天</legend>
+  <div style="padding-left: 100px;padding-bottom: 15px;">
+  <table style="width: 576px;height: 236px;background: url('/img/lol/qsyk.jpg');padding-left: 90px">
+    <tr>
+      <td style="text-align: center"><h2>标题：</h2></td>
+      <td><input id="title" type="text" style="width: 235px" placeholder="今日主题"></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><h2>日期：</h2></td>
+      <td><input id="time" type="text" class="datepicker" style="width: 235px" placeholder="发布日期" readonly="readonly"></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><h2>语音：</h2></td>
+      <td><input id="audio" type="text" style="width: 235px" placeholder="音频的服务器地址"></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><h2>试听：</h2></td>
+      <td><audio id="audition" controls="controls" autoplay="autoplay" src=""></audio></td>
+    </tr>
+  </table>
+
+  </div>
+  <div style="padding-left: 20px">
+    <div style="background-color: #ff7d2b;width: 755px;padding-left: 5px;padding-top: 20px;padding-bottom: 20px">
+      <div style="padding-left: 50px">
+        <%= render :partial => 'share/rich_text'%>
+      </div>
+      <div id="editor" style="overflow:scroll;overflow-x:hidden;overflow-y:auto; height:500px;width: 750px;background-color: white"></div>
+    </div>
+  </div>
+  <div class="form-actions">
+    <button  class="btn btn-primary" id="submit">保存内容</button>
+    <button  class="btn" onclick="window.location='/relax_moments'">取消</button>
+  </div>
+</div>
+
+<script>
+// 试听音频
+    $("#audio").change(function(){
+        readURL(this);
+    });
+    function readURL(input) {
+        //检查音频格式 以http://开始 以为格式 mp3|wma|wav结尾
+        reg = /^http:\/\/[\w/./-]+\.(mp3|wma|wav)$/
+        if (reg.test(input.value)) {
+            alert('音频链接添加成功!');
+            $('#audition').attr('src',input.value);
+        }else{
+            alert('音频链接格式有误，请检查填写!')
+            $('#audio').val('');
+        }
+    }
+//提交资料
+    $('#submit').click(function(){
+        params = {};
+        params['relax_moment'] = {};
+        params['relax_moment']['relax_title'] = $('#title').val();
+        params['relax_moment']['relax_time'] = $('#time').val();
+        params['relax_moment']['relax_audio'] = $('#audio').val();
+        params['relax_moment']['relax_content'] = $('#editor').html();
+        if($('#title').val().trim()=='' && $('#time').val()=='' && $('#editor').val().trim()==''){
+            alert('请不要提交无内容的贴！');
+            return false;
+        }else{
+            $.post('/relax_moments', params);
+            location.replace(location.href= '/relax_moments');
+        }
+    });
+
+</script>

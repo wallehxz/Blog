@@ -1,0 +1,243 @@
+<%= content_for(:title, @current_user.account) %>
+<div>
+  <legend><i class="icon32 icon-color icon-user"></i><%= @current_user.account %></legend>
+  <% if flash[:error] %>
+      <div class="alert alert-error">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <%= flash[:error] %>
+      </div>
+  <% end %>
+  <h4 style="text-align: right;color: #ff0000"><i class="icon32 icon-color icon-heart"></i><%= @current_user.signature %>______&nbsp;&nbsp;&nbsp;&nbsp;</h4>
+
+  <form action="/my_info/update" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+    <!--enctype="multipart/form-data" 用于自定义上传文件-->
+      <div style="padding-top: 20px;padding-left: 150px" >
+            <table title="基本信息" style="border:solid 1px green;width: 600px">
+              <tr>
+                <td style="padding-left: 30px"><h3>头像：</h3></td>
+                <td width="280px">
+                  <% if @current_user.avatar.present? %><img src="<%= @current_user.avatar %>" style="width: 100px;height: 100px"><br><% end %>
+                  <input type="file" id="imgInp" name="user[avatar]"  size="19" style="opacity: 0;" accept=".jpg,.gif,.png,.jpeg">
+                </td>
+                <td title="上传图片预览"><img id="blah"  style="width: 150px;height: 150px" /></td>
+              </tr>
+              <tr><td></td><td colspan="2"><hr></td></tr>
+              <tr>
+                <td style="padding-left: 30px"><h3>姓名：</h3></td>
+                <td colspan="2"><input type="text" name="user[full_name]" value="<%= @current_user.full_name %>" placeholder="生活中您所使用的称号"></td>
+              </tr>
+              <tr>
+                <td style="padding-left: 30px"><h3>生日：</h3></td>
+                <td colspan="2"><input id="birthday" type="text" name="user[birthday]" value="<%= @current_user.birthday %>" class="datepicker"></td>
+              </tr>
+              <tr>
+                <td style="padding-left: 30px"><h3>星座：</h3></td>
+                <td colspan="2"><input id="constellation" type="text" name="user[constellation]" value="<%= @current_user.constellation %>" readonly></td>
+              </tr>
+              <tr>
+                <td style="padding-left: 30px"><h3>喜好：</h3></td>
+                <td colspan="2"><input type="text" name="user[hobby]" value="<%= @current_user.hobby %>" placeholder="兴趣爱好是人生观的体现"></td>
+              </tr>
+              <tr>
+                <td style="padding-left: 30px"><h3>学历：</h3></td>
+                <td colspan="2">
+                  <select name="user[educational]" style="font-size: 18px;height: 35px;background: url(http://img.spriteapp.com/ws/www/img/web_bg.jpg) repeat;">
+                    <option>请选择学历信息</option>
+                    <option value="博士研究生" <% if @current_user.educational=='博士研究生' %>selected<%end%>>博士研究生</option>
+                    <option value="硕士研究生" <% if @current_user.educational=='硕士研究生' %>selected<%end%>>硕士研究生</option>
+                    <option value="本科" <% if @current_user.educational=='本科' %>selected<%end%>>本科</option>
+                    <option value="专科" <% if @current_user.educational=='专科' %>selected<%end%>>专科</option>
+                    <option value="高中" <% if @current_user.educational=='高中' %>selected<%end%>>高中</option>
+                    <option value="中专" <% if @current_user.educational=='中专' %>selected<%end%>>中专</option>
+                  </select>
+              </tr>
+              <tr>
+                <td style="padding-left: 30px"><h3>签名：</h3></td>
+                <td colspan="2"><textarea name="user[signature]" maxlength="100" placeholder="展现你我不一样的人生价值" style="height: 80px;width: 400px;max-width: 400px;max-height: 80px"><%= @current_user.signature %></textarea></td>
+              </tr>
+            </table>
+      </div>
+
+      <div style="padding-top: 10px;padding-left: 150px;width: 602px" >
+        <div class="sortable">
+
+            <div class="box">
+                <div  class="box-header well" data-original-title>
+                  <h2><i class="icon-red icon-user"></i> 人生经历</h2>
+                  <div class="box-icon">
+                    <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+                    <!--<a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>-->
+                  </div>
+                </div>
+              <div class="box-content">
+                    <table style="width: 580px;">
+                          <tr><td colspan="2"><h2 style="color: purple">工作经验</h2></td></tr>
+                          <tr><td colspan="2"><hr></td></tr>
+                          <tr>
+                            <td style="padding-left: 100px"><h3>公司：</h3></td>
+                            <td><input type="text" name="user[company]" value="<%= @current_user.company %>"></td>
+                          </tr>
+                          <tr>
+                            <td style="padding-left: 100px"><h3>职位：</h3></td>
+                            <td><input type="text" name="user[office]" value="<%= @current_user.office %>"></td>
+                          </tr>
+                          <tr>
+                            <td style="padding-left: 100px"><h3>时间：</h3></td>
+                            <td><input type="text" name="user[inauguration_time]" value="<%= @current_user.inauguration_time %>" placeholder="01.2013 - 11.2014"></td>
+                          </tr>
+
+                          <tr><td colspan="2"><h2 style="color: #99ca63;text-align: right">求学经验</h2></td></tr>
+                          <tr><td colspan="2"><hr></td></tr>
+                          <tr>
+                            <td style="padding-left: 100px"><h3>院校：</h3></td>
+                            <td><input type="text" name="user[colleges]" value="<%= @current_user.colleges %>"></td>
+                          </tr>
+                          <tr>
+                            <td style="padding-left: 100px"><h3>专业：</h3></td>
+                            <td><input type="text" name="user[discipline]" value="<%= @current_user.discipline %>"></td>
+                          </tr>
+                          <tr>
+                            <td style="padding-left: 100px"><h3>时间：</h3></td>
+                            <td><input type="text" name="user[school_time]" value="<%= @current_user.school_time %>" placeholder="09.2010 - 07.2014"></td>
+                          </tr>
+                    </table>
+               </div>
+            </div>
+
+          <div class="box">
+            <div  class="box-header well" data-original-title>
+              <h2><i class="icon-warning-sign"></i> 联系信息</h2>
+              <div class="box-icon">
+                <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+                <!--<a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>-->
+              </div>
+            </div>
+            <div class="box-content">
+                <table  style="width: 580px">
+                      <tr><td colspan="2"><h2 style="color: #1abc9c">快捷方式</h2></td></tr>
+                      <tr><td colspan="2"><hr></td></tr>
+                      <tr>
+                        <td style="padding-left: 100px"><h3>手机：</h3></td>
+                        <td><input type="text" name="user[phone]" value="<%= @current_user.phone %>" readonly></td>
+                      </tr>
+                      <tr>
+                        <td style="padding-left: 100px"><h3>邮箱：</h3></td>
+                        <td><input type="text" name="user[email]" value="<%= @current_user.email %>"></td>
+                      </tr>
+
+                      <tr><td colspan="2"><h2 style="color: #ff7d2b;text-align: right">社会链接</h2></td></tr>
+                      <tr><td colspan="2"><hr></td></tr>
+                      <tr>
+                        <td style="padding-left: 100px"><h3>ＱＱ：</h3></td>
+                        <td><input type="text" name="user[qq]" value="<%= @current_user.qq %>" ></td>
+                      </tr>
+                      <tr>
+                        <td style="padding-left: 100px"><h3>微信：</h3></td>
+                        <td><input type="text" name="user[weixin]" value="<%= @current_user.weixin %>"></td>
+                      </tr>
+                      <tr>
+                        <td style="padding-left: 100px"><h3>ＹＹ：</h3></td>
+                        <td><input type="text" name="user[yy]" value="<%= @current_user.yy %>" ></td>
+                      </tr>
+                      <tr>
+                        <td style="padding-left: 100px"><h3>微博：</h3></td>
+                        <td><input type="text" name="user[weibo]" value="<%= @current_user.weibo %>"></td>
+                      </tr>
+                </table>
+             </div>
+          </div>
+
+          <div class="box">
+            <div  class="box-header well" data-original-title>
+              <h2><i class="icon-warning-sign"></i> 个人项目</h2>
+              <div class="box-icon">
+                <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+              </div>
+            </div>
+            <div class="box-content">
+              <table  style="width: 580px">
+
+                <tr><td colspan="2"><h3 style="color: #ff0084">手机项目</h3></td></tr>
+                <tr>
+                  <td style="padding-left: 100px"><h3>名称：</h3></td>
+                  <td><input type="text" name="user[project_name1]" value="<%= @current_user.project_name1 %>"></td>
+                </tr>
+                <tr>
+                  <td style="padding-left: 100px"><h3>链接：</h3></td>
+                  <td><input type="text" name="user[project_url1]" value="<%= @current_user.project_url1 %>" placeholder="http://www.example.com"></td>
+                </tr>
+                <tr><td colspan="2"><hr></td></tr>
+                <tr><td colspan="2"><h3 style="color: #c85c06">推荐项目</h3></td></tr>
+                <tr>
+                  <td style="padding-left: 100px"><h3>名称：</h3></td>
+                  <td><input type="text" name="user[project_name2]" value="<%= @current_user.project_name2 %>"></td>
+                </tr>
+                <tr>
+                  <td style="padding-left: 100px"><h3>链接：</h3></td>
+                  <td><input type="text" name="user[project_url2]" value="<%= @current_user.project_url2 %>" placeholder="http://www.example.com"></td>
+                </tr>
+                <tr><td colspan="2"><hr></td></tr>
+                <tr><td colspan="2"><h3 style="color: #FA5833">合作项目</h3></td></tr>
+                <tr>
+                  <td style="padding-left: 100px"><h3>名称：</h3></td>
+                  <td><input type="text" name="user[project_name3]" value="<%= @current_user.project_name3 %>"></td>
+                </tr>
+                <tr>
+                  <td style="padding-left: 100px"><h3>链接：</h3></td>
+                  <td><input type="text" name="user[project_url3]" value="<%= @current_user.project_url3 %>" placeholder="http://www.example.com"></td>
+                </tr>
+                <tr><td colspan="2"><hr></td></tr>
+                <tr><td colspan="2"><h3 style="color: #4cae4c">独立项目</h3></td></tr>
+                <tr>
+                  <td style="padding-left: 100px"><h3>名称：</h3></td>
+                  <td><input type="text" name="user[project_name4]" value="<%= @current_user.project_name4 %>" ></td>
+                </tr>
+                <tr>
+                  <td style="padding-left: 100px"><h3>链接：</h3></td>
+                  <td><input type="text" name="user[project_url4]" value="<%= @current_user.project_url4 %>" placeholder="http://www.example.com"></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    <div>
+      <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="保存更新">
+        <a class="btn" href="#">取消</a>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+
+
+<script>
+
+    $("#imgInp").change(function(){
+        readURL(this);
+    });
+
+    function readURL(input) {
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#blah').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+     $('#birthday').change(function(){
+         var date = $('#birthday').val();
+         $.get('/constellation_date',{select_date: date},function(data){
+             $('#constellation').val(data.msg);
+         })
+     })
+
+</script>

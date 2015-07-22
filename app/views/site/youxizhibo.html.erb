@@ -1,0 +1,42 @@
+<%= content_for(:title,'游戏直播') %>
+<%= render partial: 'share/active_robot' %>
+<div class="container marketing" style="padding-top: 100px;">
+  <%= render partial: 'share/flash_tip' %>
+     <div class="box row-fluid sortable"><div></div><!-- 动态表单 -->
+          <% @game_lives.each do |item| %>
+              <div class="box span5">
+                <div class="box-header well" data-original-title>
+                  <span style="color: #2FABE9;font-size: 21px"><%= item.live_title %></span>
+                  <div class="box-icon">
+                    <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+                    <% if @current_admin.present? %>
+                        <a href="/game_lives/<%= item.id %>" class="btn btn-round" data-confirm ="确定要删除该贴么" data-method="delete"><i class="icon-remove"></i></a>
+                    <% else %>
+                        <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="box-content">
+                  <div style="padding-bottom: 10px">
+                      <a href="/youxizhibo/<%= item.id %>"><img src="<%= item.person_cover %>" style="width: 522px;height: 300px"></a>
+                  </div>
+                  <% if item.live_interval.present? %>
+                      <span class="label " style="font-size: 15px;color: #000000">直播时间</span>
+                      <% item.live_interval.gsub('-','').split(' ').each do |tag| %>
+                          <span class="label label-success" style="font-size: 12px"><%= tag %></span>
+                      <% end %>
+                  <% end %>
+                  <legend></legend>
+                  <i class="icon32 icon-blue icon-user"></i><span class="label label-important" style="font-size: 18px"><%= item.person_name %></span>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <i class="icon32 icon-green icon-bookmark"></i><span class="label label-inverse" style="font-size: 18px"><%= item.live_type %></span>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <i class="icon32 icon-red icon-heart"></i><span class="label label-warning">关注&nbsp;<%= item.attention %></span>
+                </div>
+              </div>
+          <% end %>
+     </div>
+  <div><!-- 动态标题栏 -->
+    <%= will_paginate @game_lives , :class => 'apple_pagination', :previous_label => '上一页', :next_label => '下一页' %>
+  </div>
+</div>

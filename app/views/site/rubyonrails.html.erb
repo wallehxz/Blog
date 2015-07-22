@@ -1,0 +1,44 @@
+<%= content_for(:title,'Ruby On Rails') %>
+<%= render partial: 'share/active_robot' %>
+<%= render partial: 'share/flash_tip' %>
+<div class="container marketing" style="padding-top: 100px">
+
+    <div class="sortable"><!-- 动态表单 -->
+
+      <% @topics.each do |item| %>
+
+          <div class="box">
+
+            <div class="box-header well" data-original-title>
+              <span class="label label-important" style="font-size: 20px"><i class="icon-heart"></i> <%= User.find_by_id(item.user_id).account %></span>
+              <div class="box-icon">
+                <% if @current_user.present? && @current_user.id == item.user_id %>
+                    <a href="/edit_topic/<%= item.id %>" class="btn"><i class="icon-edit"></i></a>
+                <% end %>
+                <a href="#" class="btn btn-minimize btn-round"><i class="icon-chevron-up"></i></a>
+                <a href="#" class="btn btn-close btn-round"><i class="icon-remove"></i></a>
+              </div>
+            </div>
+            <div class="box-content">
+              <span style="font-size: 22px;background-color: #000000;color: #ffffff;font-weight: bolder;margin-bottom: 10px"><%= item.topic_title %></span><br>
+              <span class="label label-warning" style="font-size: 20px"><i class="icon-flag"></i> </id><%= item.topic_type %></span><br>
+              <% if item.topic_tag.present? %>
+                  <% item.topic_tag.gsub('-','').split(' ').each do |tag| %>
+                      <span class="label label-success" style="font-size: 18px"><i class="icon-tags"></i> <%= tag %></span>
+                  <% end %>
+              <% end %>
+               <hr >
+              <p title="<%= item.topic_title %>">
+                <a href="/rubyonrails/<%= item.id %>" class="btn" style="text-align: left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= truncate(strip_tags(raw(item.topic_content)),:length=>1000) %></a>
+              </p>
+            </div>
+           </div>
+      <% end %>
+      <div></div>
+    </div>
+
+  <div>
+    <%= will_paginate @topics , :class => 'apple_pagination', :previous_label => '上一页', :next_label => '下一页' %>
+  </div>
+
+ </div>

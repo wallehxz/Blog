@@ -1,0 +1,65 @@
+<div class="box box-content" style="margin: 0px 10%">
+  <legend>更新主播信息</legend>
+  <div style="padding-left: 100px;padding-bottom: 15px">
+    <table>
+      <tr><input class="span2" id="person" size="30" type="text" value="<%= @game_life.person_name %>" placeholder="主播名字" style="font-size: 20px;height: 40px;color: #ff7d2b" /></tr>
+      <tr><input class="span2" id="attention" size="30" type="text" value="<%= @game_life.attention %>" placeholder="主播人气" style="font-size: 15px;color: #ff0000" /></tr>
+      <tr>
+        <select id="type" style="font-size: 18px;height: 35px;background: url(http://img.spriteapp.com/ws/www/img/web_bg.jpg) repeat;">
+          <option>请选择直播游戏</option>
+          <option value="英雄联盟" <% if @game_life.live_type=='英雄联盟' %>selected<%end%>>英雄联盟 LoL</option>
+          <option value="天天刀塔" <% if @game_life.live_type=='天天刀塔' %>selected<%end%>>天天刀塔 DotA</option>
+          <option value="穿越火线" <% if @game_life.live_type=='穿越火线' %>selected<%end%>>穿越火线 CF</option>
+          <option value="魔兽世界" <% if @game_life.live_type=='魔兽世界' %>selected<%end%>>魔兽世界 WoW</option>
+          <option value="流星蝴蝶剑" <% if @game_life.live_type=='流星蝴蝶剑' %>selected<%end%>>流星蝴蝶剑 MeteoR</option>
+        </select>
+      </tr>
+      <tr><input class="span3" id="title" size="30" value="<%= @game_life.live_title %>" type="text" placeholder="直播标题"  /></tr>
+      <tr><input class="span4" id="url" size="30" value="<%= @game_life.live_url %>" type="text" placeholder="斗鱼直播房间号"  /></tr>
+      <tr>
+        <select multiple data-rel="chosen" id="interval" class="span7">
+          <option value="Monday"<% if @game_life.live_interval.include?('Monday')%>selected<%end%>>1 Monday</option>
+          <option value="Tuesday"<% if @game_life.live_interval.include?('Tuesday')%>selected<%end%>>2 Tuesday</option>
+          <option value="Wednesday"<% if @game_life.live_interval.include?('Wednesday')%>selected<%end%>>3 Wednesday</option>
+          <option value="Thursday"<% if @game_life.live_interval.include?('Thursday')%>selected<%end%>>4 Thursday</option>
+          <option value="Friday"<% if @game_life.live_interval.include?('Friday')%>selected<%end%>>5 Friday</option>
+          <option value="Saturday"<% if @game_life.live_interval.include?('Saturday')%>selected<%end%>>6 Saturday</option>
+          <option value="Sunday"<% if @game_life.live_interval.include?('技术宅')%>selected<%end%>>7 Sunday</option>
+          <option value="All"<% if @game_life.live_interval.include?('Sunday')%>selected<%end%>>一夜七次郎</option>
+        </select>
+      </tr>
+    </table>
+  </div>
+  <div style="padding-left: 35px">
+    <div style="background-color: #e8e8e8;width: 700px;padding-left: 55px;padding-top: 20px;padding-bottom: 20px">
+      <%= render :partial => 'share/rich_text'%>
+      <div id="editor" style="overflow:scroll;overflow-x:hidden;overflow-y:auto;height:350px;width: 650px;background-color: white" title="简单介绍主播的相关信息"><%= raw @game_life.person_resume %></div>
+    </div>
+  </div>
+  <div class="form-actions">
+    <button  class="btn btn-primary" id="submit">保存</button>
+    <button  class="btn" onclick="window.location='/topics'">取消</button>
+  </div>
+</div>
+<script>
+    $('#submit').click(function(){
+        params = {};
+        params['game_live'] = {};
+        params['game_live']['id'] = <%= @game_life.id %>;
+        params['game_live']['live_type'] = $('#type').val();
+        params['game_live']['attention'] = $('#attention').val();
+        params['game_live']['live_title'] = $('#title').val();
+        params['game_live']['live_url'] = $('#url').val();
+        params['game_live']['live_interval'] = $('#interval').val();
+        params['game_live']['person_name'] = $('#person').val();
+        params['game_live']['person_resume'] = $('#editor').html();
+        if($('#title').val()=='' || $('#person').val()=='' || $('#type').val()=='' || $('#url').val()==''){
+            alert('主播的信息不够完善！');
+            return false;
+        }else{
+            $.post('/game_lives/update_live', params);
+            location.replace(location.href= '/game_lives');
+        }
+    });
+</script>
+

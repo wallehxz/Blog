@@ -1,0 +1,56 @@
+<%= stylesheet_link_tag 'account_login', media:'all'%>
+<%= content_for(:title,'账号登录') %>
+<div class="container marketing">
+  <div style="padding-top: 150px;height: 550px;">
+    <div style="float: left;width: 60%;">
+      <img src="/images/calendar/<%= Time.now.strftime('%m')%>/<%= rand(5) %>.jpg" width="560px" style="padding-left: 70px">
+    </div>
+    <div style="float: right;width: 40%">
+      <div  class= "popup">
+        <div class= "pop-box">
+          <div style="height: 360px">
+            <div class="pop-tit" style="height: 50px">
+              <p style="font-size: 35px;color: #FFFFFF;padding-top: 15px;padding-left: 15px">账号登录</p>
+            </div>
+            <div style="text-align: center">
+            <form accept-charset="utf-8" action="/account/user_login" method="post">
+              <% if flash[:error] %>
+                  <div style="padding-top: 5px;width: 251px;padding-left: 60px;padding-bottom: -5px">
+                  <div class="alert alert-error">
+                    <%= flash[:error] %>
+                  </div>
+                  </div>
+              <% end %>
+              <div class="input-prepend" title="请输入您的登陆账号" data-rel="tooltip" data-placement="top" style="padding-top: <% if flash[:error] %>0px<% else %>50px<% end %>">
+                <span class="add-on"><i class="icon-user"></i></span>
+                <input type="text" name="account" value="<%= params[:account]%>" class="input-large" placeholder="没有邮箱的人,都是娘炮">
+              </div>
+
+              <div class="input-prepend" title="请输入您的登陆密码" data-rel="tooltip" style="padding-top: 20px">
+                <span class="add-on"><i class="icon-lock"></i></span>
+                <input type="password" name="password" class="input-large" placeholder="听说密码越长越牛逼">
+              </div>
+
+              <div style="padding-top: 15px">
+                <span>记住我</span>
+                <span style="padding-left: 130px"><a href="/account/user_forget_password" style="color: #ff0000">忘记密码？</a></span>
+              </div>
+
+              <div style="padding-top: 15px">
+                <button type="submit" class="btn btn-danger" style="width: 250px">登录</button>
+              </div>
+
+              <div style="padding-top: 15px">
+                <span style="padding-left: 180px"><a href="/sign_in" style="color: #000000">免费注册</a></span>
+              </div>
+            </form>
+            </div>
+        </div>
+      </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

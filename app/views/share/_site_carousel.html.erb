@@ -1,0 +1,59 @@
+<div id="myCarousel" class="carousel slide">
+  <div class="carousel-inner">
+
+    <div class="item active">
+      <% live_carousel =GameLive.order('attention desc').limit(1).first%>
+      <img src="/images/carousel/lol<%= rand(4)%>.jpg" alt="">
+      <div class="container">
+        <div class="carousel-caption">
+          <h1>英雄联盟</h1>
+          <p class="lead">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在这里，魔法不只是一种神秘莫测的能量概念。它是实体化的物质，可以被引导、成形、塑造和操作。符文之地的魔法拥有自己的自然法则。源生态魔法随机变化的结果改变了科学法则。</p>
+          <a class="btn btn-large" href="/youxizhibo">激情直播</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="item">
+      <img src="/images/carousel/ruby<%= rand(3)%>.jpg" alt="">
+      <div class="container">
+        <div class="carousel-caption">
+          <h1>Ruby on Rails</h1>
+          <p class="lead">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ruby on Rails，简称Rails，是一个使用Ruby语言写的开源Web应用框架，它是严格按照MVC结构开发的。它努力使自身保持简单，来使实际的应用开发时的代码更少，使用最少的配置。Rails的设计原则包括“不做重复的事”（Don't Repeat Yourself）和“惯例优于设置”（Convention Over Configuration）</p>
+          <a class="btn btn-large btn-success" href="/rubyonrails">获益匪浅</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="item">
+      <img src="/images/carousel/qingsong<%= rand(3)%>.jpg" alt="">
+      <div class="container">
+        <div class="carousel-caption">
+          <h1>轻松一刻</h1>
+          <p class="lead">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;轻松一刻这个栏目是网易的，是小编的，更是广大易友和我们一起创造的奇迹。1年里我们一起经历了春夏秋天，无论风雨，无论节假日，我们都会在固定的老地方等你们，虽然我们孱弱过，也会姗姗来迟八点二十发过，不过我们从不会爽约。1周年是一个新的起点，请和我一起，爱生活，爱轻松一刻。</p>
+          <a class="btn btn-large btn-info" href="/qingsongyike">神采飞扬</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="item">
+      <img src="/images/carousel/qiushi<%= rand(3)%>.jpg" alt="">
+      <div class="container">
+        <div class="carousel-caption">
+          <h1>糗事百科</h1>
+          <p class="lead">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;是以糗友真实糗事为主题的笑话网站，话题轻松休闲，在年轻人中十分流行。在糗事百科中可以查看他人发布的糗事并与网友分享自己亲身经历或听说到的油菜、杯具、草蛋、有意思的、不顺心的等各类情形的生活糗事，并且可以左右排名。但是最近糗事百科的糗事有涉黄的嫌疑，偏离了一开始的方向。</p>
+          <a class="btn btn-large btn-primary" href="qiushibaike">莞尔一笑</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+  <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
+</div>
+<script src="bootstrap-carousel.js">
+    !function ($) {
+        $(function(){
+            $('#myCarousel').carousel()
+        })
+    }(window.jQuery)
+</script>

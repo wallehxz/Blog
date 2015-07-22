@@ -1,0 +1,38 @@
+<% if current_admin.present? %>
+    <div class="btn-group pull-right" >
+          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                <img src="<%= Admin::AVATAR[rand(13)] %>"style="width: 20px;height: 20px"><span class="hidden-phone"><%= current_admin.nickname %></span>
+                <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+                <li><a href="/my_detail/<%= current_admin.id %>">我的信息</a></li>
+                <li class="divider"></li>
+                <li><a href="#">糗事百科</a></li>
+                <li class="divider"></li>
+                <li><a href="#">实时热闻</a></li>
+                <li class="divider"></li>
+                <li><a href="#">轻松一刻</a></li>
+                <li class="divider"></li>
+                <li><a href="#">游戏直播</a></li>
+                <li class="divider"></li>
+                <li><a href="/admin_logout/<%= current_admin.id %>">管理登出</a></li>
+          </ul>
+    </div>
+<% else %>
+    <div class="btn-group pull-right" >
+      <a class="btn dropdown-toggle" data-toggle="dropdown">
+        <i class="icon-user"></i><span class="hidden-phone">您好,新游客！</span>
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu">
+        <li><a href="#">用户注册</a></li>
+        <li class="divider"></li>
+        <li><a href="#">用户登录</a></li>
+        <li class="divider"></li>
+        <li><a href="/admin_sign_up">申请管理员资格</a></li>
+        <li class="divider"></li>
+        <li><a href="/admin_sign_in">我是管理我牛逼</a></li>
+        <li class="divider"></li>
+      </ul>
+    </div>
+<% end %>
